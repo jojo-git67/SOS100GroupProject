@@ -1,5 +1,48 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<h1>Home</h1>
-<p>Hej</p>
+
+<div class="home-container">
+    
+    <!-- Notiser -->
+    <!-- TODO: Data hämtas från Kommunikationstjänsten API -->
+    <!-- Ansvarig: Kommunikationstjänsten ägare -->
+    <!-- Endpoint: GET /api/kommunikation/user/{userId} -->
+    <div class="section" id="notiserSection">
+        <h3>Notiser</h3>
+        <ul>
+            <li><i class="fa fa-bell"></i> Nytt meddelande från lärare</li><br/>
+            <li><i class="fa fa-check"></i> Du är nu registrerad på en kurs</li><br/>
+        </ul>
+        <button>Visa alla notiser</button>
+    </div>
+
+    <!-- Dina registrerade kurser -->
+    <!-- TODO: Data hämtas från Registreringstjänsten API -->
+    <!-- Ansvarig: Registreringstjänsten ägare -->
+    <!-- Endpoint: GET /api/registrering/user/{userId} -->
+    <div class="section" id="kursSection">
+        <h3>Dina registrerade kurser</h3>
+        <ul>
+            <li><i class="fa fa-book"></i> Informationssäkerhet</li><br/>
+            <li><i class="fa fa-book"></i> Grundläggande webbutveckling</li><br/>
+        </ul>
+        <button>Visa alla kurser</button>
+    </div>
+
+    <!-- Schemaöversikt -->
+    <!-- TODO: Data hämtas från Schematjänsten API -->
+    <!-- Ansvarig: Schematjänsten ägare -->
+    <!-- Endpoint: GET /api/schema/user/{userId} -->
+    <div class="section" id="schemaSection">
+        <h3>Schemaöversikt</h3>
+        <ul>
+            <li><i class="fa fa-calendar"></i> 10:15 - 12:00 Grundläggande webbutveckling</li>
+            <li><i class="fa fa-calendar"></i> 13:15 - 16:00 Informationssäkerhet</li>
+        </ul>
+        <button>Visa hela schemat</button>
+    </div>
+
+</div>
+
+<script src="~/js/home.js"></script>
