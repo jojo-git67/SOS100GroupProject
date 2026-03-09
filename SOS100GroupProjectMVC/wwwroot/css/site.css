@@ -1,6 +1,9 @@
 body {
     margin: 0;
 }
+.content {
+    margin-left: 200px;
+}
 nav {
     display: flex;
     justify-content: space-between;
