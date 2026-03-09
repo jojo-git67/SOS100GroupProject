@@ -5,8 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+<nav>
+    <div id="navigation-logo">
+        <a href="#"><h1>Titel på sida</h1></a>
+    </div>
+    <div id="navigation-menu">
+        <ul>                
+            <li><a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i>Meddelanden</a></li>
+            <li><a href=""><i class="fa fa-user-circle-o"></i>Logga ut</a></li>
+        </ul>
+    </div>
+</nav>
 @RenderBody()
 <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
