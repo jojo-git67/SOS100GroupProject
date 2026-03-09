@@ -7,8 +7,7 @@ nav {
     padding: 0 2rem;
     align-items: center;
     background-color: #EAEFEF;
-
-    box-shadow: 2px 0 10px rgba(0,0,0,0.25);
+    border-bottom: 1px solid black;
 }
 ul {
     display: flex;
@@ -38,5 +37,19 @@ a:hover {
 }
 #navigation-menu {
     display: flex;
+}
+
+#sidebar-menu{
+    width: fit-content;
+    height: 100%;
+    background-color: #EAEFEF;
+    position: fixed;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid black;
+}
+#sidebar-menu>ul{
+    flex-direction: column;
 
 }
