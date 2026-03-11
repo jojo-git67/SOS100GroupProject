@@ -1,3 +1,6 @@
+using KommunicationAPI.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace KommunicationAPI;
 
 public class Program
@@ -21,10 +24,12 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-
-
+        
         app.MapControllers();
 
         app.Run();
+        
+        builder.Services.AddDbContext<KommunicationDbContext>(options =>
+            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
     }
 }
