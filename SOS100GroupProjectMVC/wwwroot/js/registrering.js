@@ -1,0 +1,272 @@
+﻿// Registrering sida - JavaScript logik
+
+// API bas URL - ändra till Azure URL när vi deployar
+const API_BASE_URL = "http://localhost:5041";
+
+// Hämta cookie värde med namn
+function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [key, value] = cookie.trim().split('=');
+        if (key === name) return value;
+    }
+    return null;
+}
+
+// Läs roll och userId från cookie
+const userId = getCookie("userId") || "2";
+const role = getCookie("role") || "IT-admin";
+
+// Göm alla sektioner först
+function hideAll() {
+    document.getElementById("searchContainer").style.display = "none";
+    document.getElementById("availableCoursesSection").style.display = "none";
+    document.getElementById("myCoursesSection").style.display = "none";
+    document.getElementById("hanteraSection").style.display = "none";
+    document.getElementById("historikSection").style.display = "none";
+}
+
+// Visa sektioner baserat på roll
+function showContentByRole(role) {
+    hideAll();
+
+    if (role === "student") {
+        document.getElementById("searchContainer").style.display = "block";
+        document.getElementById("availableCoursesSection").style.display = "block";
+        document.getElementById("myCoursesSection").style.display = "block";
+        document.getElementById("myCoursesSectionTitle").style.display = "block";
+        document.getElementById("adminCoursesSectionTitle").style.display = "none";
+    }
+    else if (role === "courseAdmin") {
+        document.getElementById("myCoursesSection").style.display = "block";
+        document.getElementById("hanteraSection").style.display = "block";
+        document.getElementById("historikSection").style.display = "block";
+        document.getElementById("myCoursesSectionTitle").style.display = "none";
+        document.getElementById("adminCoursesSectionTitle").style.display = "block";
+    }
+    else if (role === "IT-admin") {
+        document.getElementById("searchContainer").style.display = "block";
+        document.getElementById("availableCoursesSection").style.display = "block";
+        document.getElementById("myCoursesSection").style.display = "block";
+        document.getElementById("hanteraSection").style.display = "block";
+        document.getElementById("historikSection").style.display = "block";
+        document.getElementById("myCoursesSectionTitle").style.display = "block";
+        document.getElementById("adminCoursesSectionTitle").style.display = "none";
+    }
+    else if (role === "teacher") {
+        document.querySelector(".page-container").innerHTML = `
+            <div style="text-align: center; margin-top: 3rem;">
+                <i class="fa fa-lock" style="font-size: 3rem;"></i>
+                <h2>Ingen behörighet</h2>
+                <p>Du har inte tillgång till denna sida.</p>
+                <a href="/Home" class="btn">Gå tillbaka till startsidan</a>
+            </div>
+        `;
+    }
+}
+
+// Sökfunktion - filtrerar kurser baserat på input
+document.getElementById("searchInput").addEventListener("input", function() {
+    const searchValue = this.value.toLowerCase();
+    const courseCards = document.querySelectorAll("#availableCoursesSection .course-card");
+    courseCards.forEach(card => {
+        const courseName = card.querySelector("p").textContent.toLowerCase();
+        if (courseName.includes(searchValue)) {
+            card.style.display = "flex";
+        } else {
+            card.style.display = "none";
+        }
+    });
+});
+
+// Hämta min registrerade kurser från API
+async function fetchMyRegistrations() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/Registrering/user/${userId}`);
+        const registrations = await response.json();
+
+        const myCoursesSection = document.getElementById("myCoursesSection");
+        const existingCards = myCoursesSection.querySelectorAll(".course-card");
+        existingCards.forEach(card => card.remove());
+
+        registrations.forEach(reg => {
+            const card = document.createElement("div");
+            card.className = "course-card";
+
+            const button = role === "courseAdmin" || role === "IT-admin"
+                ? `<button class="btn btn-manage">Hantera kursen</button>`
+                : `<button class="btn btn-remove" onclick="deleteRegistration(${reg.registreringId})">Ta bort</button>`;
+
+            card.innerHTML = `
+                <p>Kurs ID: ${reg.courseId} - Status: ${reg.status}</p>
+                ${button}
+            `;
+            myCoursesSection.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Fel vid hämtning av registreringar:", error);
+    }
+}
+
+// Hämta pending registreringar för courseAdmin
+async function fetchPendingRegistrations(courseId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/Registrering/course/${courseId}`);
+        const registrations = await response.json();
+
+        const hanteraSection = document.getElementById("hanteraSection");
+        const existingCards = hanteraSection.querySelectorAll(".course-card-admin");
+        existingCards.forEach(card => card.remove());
+
+        const pendingRegistrations = registrations.filter(r => r.status === "pending");
+
+        pendingRegistrations.forEach(reg => {
+            const card = document.createElement("div");
+            card.className = "course-card-admin";
+            card.dataset.registrationId = reg.registreringId;
+            card.innerHTML = `
+                <div class="card-info">
+                    <p><strong>Student ID:</strong> ${reg.userId}</p>
+                    <p><strong>Kurs ID:</strong> ${reg.courseId}</p>
+                </div>
+                <div class="card-buttons">
+                    <button class="btn btn-godkann">Godkänn</button>
+                    <button class="btn btn-neka">Neka</button>
+                </div>
+            `;
+
+            card.querySelector(".btn-godkann").addEventListener("click", function() {
+                updateStatus(reg.registreringId, "confirmed");
+            });
+
+            card.querySelector(".btn-neka").addEventListener("click", function() {
+                updateStatus(reg.registreringId, "rejected");
+            });
+
+            hanteraSection.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Fel vid hämtning av pending registreringar:", error);
+    }
+}
+
+// Hämta status historik
+async function fetchHistorik() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/Registrering/user/${userId}/history`);
+        const history = await response.json();
+
+        const historikSection = document.getElementById("historikSection");
+        const existingCards = historikSection.querySelectorAll(".course-card-admin");
+        existingCards.forEach(card => card.remove());
+
+        if (history.length === 0) {
+            const empty = document.createElement("p");
+            empty.textContent = "Ingen historik hittades.";
+            historikSection.appendChild(empty);
+            return;
+        }
+
+        history.forEach(h => {
+            const card = document.createElement("div");
+            card.className = "course-card-admin";
+            card.innerHTML = `
+                <div class="card-info">
+                    <p><strong>Registrering ID:</strong> ${h.registrationId}</p>
+                    <p><strong>Från:</strong> ${h.oldStatus} → <strong>Till:</strong> ${h.newStatus}</p>
+                    <p><strong>Datum:</strong> ${new Date(h.changedDate).toLocaleString()}</p>
+                </div>
+            `;
+            historikSection.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Fel vid hämtning av historik:", error);
+    }
+}
+
+// Registrera dig på en kurs
+async function registerCourse(courseId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/Registrering`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userId: parseInt(userId),
+                courseId: courseId
+            })
+        });
+
+        if (response.ok) {
+            alert("Du är nu registrerad på kursen!");
+            fetchMyRegistrations();
+        } else {
+            alert("Något gick fel, försök igen!");
+        }
+    } catch (error) {
+        console.error("Fel vid registrering:", error);
+    }
+}
+
+// Lyssna på alla Registrera dig knappar
+document.querySelectorAll("#availableCoursesSection .btn-register").forEach(btn => {
+    btn.addEventListener("click", function() {
+        const courseId = this.closest(".course-card").dataset.courseId;
+        registerCourse(parseInt(courseId));
+    });
+});
+
+// Uppdatera status på en registrering
+async function updateStatus(registrationId, newStatus) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/Registrering/${registrationId}?newStatus=${newStatus}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (response.ok) {
+            alert(`Registrering ${newStatus}!`);
+            fetchPendingRegistrations(1);
+            fetchHistorik();
+        } else {
+            alert("Något gick fel, försök igen!");
+        }
+    } catch (error) {
+        console.error("Fel vid statusuppdatering:", error);
+    }
+}
+
+// Ta bort registrering
+async function deleteRegistration(registreringId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/Registrering/${registreringId}`, {
+            method: "DELETE"
+        });
+
+        if (response.ok) {
+            fetchMyRegistrations();
+        } else {
+            console.error("Kunde inte ta bort registrering");
+        }
+    } catch (error) {
+        console.error("Fel vid borttagning:", error);
+    }
+}
+
+// Kör roll logik
+showContentByRole(role);
+
+// Hämta data baserat på roll
+fetchMyRegistrations();
+
+// Hämta pending registreringar och historik för courseAdmin/IT-admin
+if (role === "courseAdmin" || role === "IT-admin") {
+    fetchPendingRegistrations(1);
+    fetchHistorik();
+}
