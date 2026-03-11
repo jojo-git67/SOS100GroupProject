@@ -1,3 +1,4 @@
+using KommunicationAPI.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,12 @@ namespace KommunicationAPI.Controllers
     [ApiController]
     public class KommunicationController : ControllerBase
     {
+        private readonly KommunicationDbContext _dbContext;
+
+        public KommunicationController(KommunicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
         // GET: api/<KommunicationController>
         [HttpGet]
         public IEnumerable<string> Get()
