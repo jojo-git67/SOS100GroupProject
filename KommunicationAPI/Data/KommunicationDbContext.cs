@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-//using KommunicationAPI.Models;
+using KommunicationAPI.Models;
 
 namespace KommunicationAPI.Data;
 
@@ -10,5 +10,5 @@ public class KommunicationDbContext : DbContext
     {
     }
 
-    //public DbSet<Message> Messages { get; set; }
+    public DbSet<Message> Messages { get; set; }
 }
