@@ -10,11 +10,11 @@
 <body>
 <nav>
     <div id="navigation-logo">
-        <a href="#"><h1>@ViewData["Title"]</h1></a>
+        <a asp-action="Index" asp-controller="Home"><h1>Startsida</h1></a>
     </div>
     <div id="navigation-menu">
         <ul>                
-            <li><a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i>Meddelanden</a></li>
+            <li><a asp-action="Index" asp-controller="Messages"><i class="fa fa-envelope-o" aria-hidden="true"></i>Meddelanden</a></li>
             <li><a href=""><i class="fa fa-user-circle-o"></i>Logga ut</a></li>
         </ul>
     </div>
