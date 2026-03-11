@@ -23,13 +23,14 @@ public class Program
             app.MapOpenApi();
         }
 
-        app.UseHttpsRedirection();
-        
-        app.MapControllers();
 
+        app.UseHttpsRedirection();
+        app.MapControllers();
         app.Run();
-        
+
         builder.Services.AddDbContext<KommunicationDbContext>(options =>
-            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+        {
+            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+        });
     }
 }
