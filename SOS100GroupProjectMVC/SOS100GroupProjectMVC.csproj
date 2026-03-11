@@ -69,4 +69,9 @@
       <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\LICENSE.txt" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.4" />
+      <PackageReference Include="SQLite" Version="3.13.0" />
+    </ItemGroup>
+
 </Project>
