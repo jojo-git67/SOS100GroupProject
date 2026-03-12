@@ -30,31 +30,34 @@ public class LoginController : Controller
             return View(model);
         }
 
+        Console.WriteLine("Model state valid");
         var credentials = await _userDbContext.UserCredentials
             .FirstOrDefaultAsync(c => c.UserName == model.UserName);
-
+        
+        Console.WriteLine("User found");
         if (credentials == null)
         {
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
             return View(model);
         }
-        
+        Console.WriteLine("User not null");
+
         //Converts input-string to hash-value with added salt from the found user
         string enteredHash = GetHashFunction(credentials.Salt + model.Password);
-        
+        Console.WriteLine("Hash successfully converted");
         if (enteredHash != credentials.Password)
         {
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
             return View(model);
         }
-
+        Console.WriteLine("Entered hash matches password in database");
         return RedirectToAction("Index", "Home");
     }
 
     //Logout
     public async Task<IActionResult> Logout()
     {
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", "Home");
     }
 
     private string GetHashFunction(string input)
