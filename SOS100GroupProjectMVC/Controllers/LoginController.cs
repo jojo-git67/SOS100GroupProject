@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SOS100GroupProjectMVC.Data;
@@ -8,12 +10,12 @@ namespace SOS100GroupProjectMVC.Controllers;
 public class LoginController : Controller
 {
     private readonly UserDbContext _userDbContext;
-    
+
     public LoginController(UserDbContext userDbContext)
     {
         _userDbContext = userDbContext;
     }
-    
+
     // GET
     public IActionResult Index()
     {
@@ -27,7 +29,7 @@ public class LoginController : Controller
         {
             return View(model);
         }
-        
+
         var credentials = await _userDbContext.UserCredentials
             .FirstOrDefaultAsync(c => c.UserName == model.UserName);
 
@@ -36,19 +38,36 @@ public class LoginController : Controller
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
             return View(model);
         }
-
-        if (credentials.Password != model.Password)
+        
+        //Converts input-string to hash-value with added salt from the found user
+        string enteredHash = GetHashFunction(credentials.Salt + model.Password);
+        
+        if (enteredHash != credentials.Password)
         {
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
             return View(model);
         }
-        
+
         return RedirectToAction("Index", "Home");
     }
-    
+
     //Logout
     public async Task<IActionResult> Logout()
     {
         return RedirectToAction("Index");
+    }
+
+    private string GetHashFunction(string input)
+    {
+        using (SHA256 sha256Hash = SHA256.Create())
+        {
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+            StringBuilder builder = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                builder.Append(b.ToString("x2"));
+            }
+            return builder.ToString(); 
+        }
     }
 }
