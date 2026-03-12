@@ -1,4 +1,5 @@
 using KommunicationAPI.Data;
+using KommunicationAPI.DTOs;
 using KommunicationAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,18 +19,20 @@ namespace KommunicationAPI.Controllers
         }
         
         //Get all messages
-        [HttpGet("user/{senderId}")]
-        public async Task<ActionResult<IEnumerable<Message>>> getMessages()
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<Message>>> getAllMessagesForUser(int userId)
         {
-            //Maybe add .Where()
+            
             var messages = await _dbContext.Messages
+                .Where(m => m.SenderId == userId || m.ReceiverId == userId)
                 .ToListAsync();
             
             return Ok(messages);
         }
-
+        
+        
         //Returns a specific selected message
-        [HttpGet("{id}")]
+        [HttpGet("user/{userId}/{senderId}")]
         public async Task<IActionResult> getMessageById(int id)
         {
             var message = await _dbContext.Messages.FindAsync(id);
@@ -42,32 +45,37 @@ namespace KommunicationAPI.Controllers
             return Ok(message);
         }
         
+        //TODO: Not working for some reason
         [HttpPost]
-        public async Task<IActionResult> createMessage(Message message)
+        public async Task<IActionResult> createMessage([FromBody] CreateMessageDto dto)
         {
-            //Add more attributes?
-            message.timestamp = DateTime.Now;
-            message.IsRead = false;
-            _dbContext.Messages.Add(message); 
+            var message = new Message
+            {
+                SenderId = dto.SenderId,
+                ReceiverId = dto.ReceiverId,
+                Content = dto.Content,
+                timestamp = DateTime.Now,
+                IsRead = false
+            };
+
+            _dbContext.Messages.Add(message);
             await _dbContext.SaveChangesAsync();
-            
+
             return Ok(message);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> editMessage(int id, string newMessage)
+        public async Task<IActionResult> updateMessage(int id, [FromBody] UpdateMessageDto dto)
         {
             var message = await _dbContext.Messages.FindAsync(id);
 
             if (message == null)
-            {
                 return NotFound();
-            }
-            
-            message.Content = newMessage;
-            
+
+            message.Content = dto.Content;
+
             await _dbContext.SaveChangesAsync();
-            
+
             return Ok(message);
         }
         
