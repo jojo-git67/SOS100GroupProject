@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+}
+
+#title-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1em;
+    border-bottom: 1px solid black;
+}
+
+#filter-menu {
+    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1em;
+}
+select {
+    font-size: 1.5rem;
+}
+#messages-container {
+    display: flex;
+
+}
+#messages-scrollmenu {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 600px;
+    white-space: nowrap;
+    width: 20%;
+}
+.messages-preview {
+    margin: 0;
+    padding: .2em;
+    border-bottom: 1px solid black;
+}
+.messages-preview:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+.message {
+    border-left: 1px solid black;
+    padding: 1em;
+}

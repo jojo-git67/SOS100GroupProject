@@ -1,6 +1,59 @@
 @{
     ViewData["Title"] = "Meddelanden";
 }
+<link rel="stylesheet" href="~/css/messages.css"/>
+<div id="title-menu">
+        <div>
+            <h1>Inkorg</h1>
+        </div>
+        <div>
+            <button>Inställningar</button>
+            <button>Skriv nytt meddelande</button>
+        </div>
+    </div> 
+<div id="filter-menu">
+    <!--TODO: Get data from database -->
+    <div class="form-container">
+        <select>
+            <option value="">Alla kurser</option>
+            <option value="Webbutveckling">Webbutveckling</option>
+            <option value="Programmering">Programmering</option>
+            <option value="Ungdomslitteratur">Ungdownlitteratur</option>
+        </select>
+    </div>
+    <!--TODO: Get data from database -->
+    <div class="form-container">
+        <select>
+            <option value="">Alla kurser</option>
+            <option value="Webbutveckling">Webbutveckling</option>
+            <option value="Programmering">Programmering</option>
+            <option value="Ungdomslitteratur">Ungdownlitteratur</option>
+        </select>
+    </div>
+</div> 
+    <div id="messages-container">
+        <div id="messages-scrollmenu">
+            <!--TODO: Render data from database -->
+            <!-- -->
+            @for (int i = 0; i < 10;i++)
+            {
+                <div class="messages-preview" id="@i">
+                    <h3>Datum</h3>
+                    <h4>Sändare</h4>
+                    <p>titel</p>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloribus voluptatibus voluptatem nemo laborum eveniet consequatur officia tempore? Culpa tempora, dolor repellat mollitia, nihil voluptas officia iure sapiente magni dolore modi?</p>
+                </div>
+            }
+        </div>
+        <!--TODO: Get message from database from selected item -->
+        <div class="message">
+            <div>
+                <h1>Titel</h1>
+            </div>
+            <div>
 
-
-<script src="js/messages.js"></script>
+            </div>
+        </div>
+        
+    </div>
+<script src="~/js/messages.js"></script>

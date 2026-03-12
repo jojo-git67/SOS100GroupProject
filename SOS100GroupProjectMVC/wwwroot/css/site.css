@@ -3,6 +3,8 @@ body {
 }
 .content {
     margin-left: 200px;
+    max-height: 600px;
+    overflow: hidden;
 }
 nav {
     display: flex;
