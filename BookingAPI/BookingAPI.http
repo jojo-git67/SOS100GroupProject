@@ -1,6 +1,81 @@
-@BookingAPI_HostAddress = http://localhost:5147
+@BookingAPI_HostAddress = https://localhost:7285
 
-GET {{BookingAPI_HostAddress}}/weatherforecast/
+GET {{BookingAPI_HostAddress}}/api/rooms
 Accept: application/json
 
 ###
+
+GET {{BookingAPI_HostAddress}}/api/rooms/1
+Accept: application/json
+
+###
+
+POST {{BookingAPI_HostAddress}}/api/rooms
+Content-Type: application/json
+
+{
+  "roomId": 0,
+  "roomName": "A101",
+  "capacity": 30
+}
+
+###
+
+PUT {{BookingAPI_HostAddress}}/api/rooms/1
+Content-Type: application/json
+
+{
+  "roomId": 1,
+  "roomName": "A102",
+  "capacity": 40
+}
+
+###
+
+DELETE {{BookingAPI_HostAddress}}/api/rooms/1
+
+###
+
+GET {{BookingAPI_HostAddress}}/api/roombookings
+Accept: application/json
+
+###
+
+GET {{BookingAPI_HostAddress}}/api/roombookings/1
+Accept: application/json
+
+###
+
+POST {{BookingAPI_HostAddress}}/api/roombookings
+Content-Type: application/json
+
+{
+  "bookingId": 0,
+  "roomId": 1,
+  "date": "2026-03-12T00:00:00",
+  "startTime": "09:00:00",
+  "endTime": "11:00:00",
+  "activityId": 101,
+  "bookedByUserId": 5,
+  "status": "Confirmed"
+}
+
+###
+
+PUT {{BookingAPI_HostAddress}}/api/roombookings/1
+Content-Type: application/json
+
+{
+  "bookingId": 1,
+  "roomId": 1,
+  "date": "2026-03-13T00:00:00",
+  "startTime": "10:00:00",
+  "endTime": "12:00:00",
+  "activityId": 202,
+  "bookedByUserId": 7,
+  "status": "Updated"
+}
+
+###
+
+DELETE {{BookingAPI_HostAddress}}/api/roombookings/2
