@@ -18,7 +18,7 @@ namespace KommunicationAPI.Controllers
         }
         
         //Get all messages
-        [HttpGet("user/{userId}")]
+        [HttpGet("user/{senderId}")]
         public async Task<ActionResult<IEnumerable<Message>>> getMessages()
         {
             //Maybe add .Where()
@@ -30,7 +30,7 @@ namespace KommunicationAPI.Controllers
 
         //Returns a specific selected message
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMessageById(int id)
+        public async Task<IActionResult> getMessageById(int id)
         {
             var message = await _dbContext.Messages.FindAsync(id);
 
@@ -45,6 +45,9 @@ namespace KommunicationAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> createMessage(Message message)
         {
+            //Add more attributes?
+            message.timestamp = DateTime.Now;
+            message.IsRead = false;
             _dbContext.Messages.Add(message); 
             await _dbContext.SaveChangesAsync();
             
