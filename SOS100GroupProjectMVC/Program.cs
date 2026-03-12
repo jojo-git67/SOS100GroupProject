@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using SOS100GroupProjectMVC.Data;
+
 namespace SOS100GroupProjectMVC;
 
 public class Program
@@ -8,6 +11,10 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+        
+        builder.Services.AddDbContext<UserDbContext>(options =>
+            options.UseSqlite(
+                builder.Configuration.GetConnectionString("DefaultConnection")));
 
         var app = builder.Build();
 
