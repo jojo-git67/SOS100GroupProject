@@ -1,0 +1,54 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SOS100GroupProjectMVC.Data;
+using SOS100GroupProjectMVC.DTOs;
+
+namespace SOS100GroupProjectMVC.Controllers;
+
+public class LoginController : Controller
+{
+    private readonly UserDbContext _userDbContext;
+    
+    public LoginController(UserDbContext userDbContext)
+    {
+        _userDbContext = userDbContext;
+    }
+    
+    // GET
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        
+        var credentials = await _userDbContext.UserCredentials
+            .FirstOrDefaultAsync(c => c.UserName == model.UserName);
+
+        if (credentials == null)
+        {
+            ModelState.AddModelError("", "Fel användarnamn eller lösenord");
+            return View(model);
+        }
+
+        if (credentials.Password != model.Password)
+        {
+            ModelState.AddModelError("", "Fel användarnamn eller lösenord");
+            return View(model);
+        }
+        
+        return RedirectToAction("Index", "Home");
+    }
+    
+    //Logout
+    public async Task<IActionResult> Logout()
+    {
+        return RedirectToAction("Index");
+    }
+}
