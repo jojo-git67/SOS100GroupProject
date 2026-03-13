@@ -3,6 +3,9 @@
 // API bas URL - ändra till Azure URL när vi deployar
 const API_BASE_URL = "http://localhost:5041";
 
+// Katalogtjänsten bas URL - ändra till rätt port när hon kör lokalt
+const KATALOG_BASE_URL = "http://localhost:XXXX"; // hennes port här
+
 // Hämta cookie värde med namn
 function getCookie(name) {
     const cookies = document.cookie.split(';');
@@ -15,7 +18,7 @@ function getCookie(name) {
 
 // Läs roll och userId från cookie
 const userId = getCookie("userId") || "2";
-const role = getCookie("role") || "IT-admin";
+const role = getCookie("role") || "courseAdmin";
 
 // Göm alla sektioner först
 function hideAll() {
@@ -79,6 +82,53 @@ document.getElementById("searchInput").addEventListener("input", function() {
     });
 });
 
+// Hämta alla kurser från Katalogtjänsten
+async function fetchAvailableCourses() {
+    try {
+        const response = await fetch(`${KATALOG_BASE_URL}/api/courses`);
+        const courses = await response.json();
+
+        const availableCoursesSection = document.getElementById("availableCoursesSection");
+        const existingCards = availableCoursesSection.querySelectorAll(".course-card");
+        existingCards.forEach(card => card.remove());
+
+        courses.forEach(course => {
+            const card = document.createElement("div");
+            card.className = "course-card";
+            card.dataset.courseId = course.courseId;
+            card.innerHTML = `
+                <p>${course.title}</p>
+                <div class="card-buttons">
+                    <button class="btn btn-info">Läs mer</button>
+                    <button class="btn btn-register">Registrera dig</button>
+                </div>
+            `;
+
+            // Lägg till event listener på Registrera dig knapp
+            card.querySelector(".btn-register").addEventListener("click", function() {
+                registerCourse(course.courseId);
+            });
+
+            availableCoursesSection.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Fel vid hämtning av kurser från Katalogtjänsten:", error);
+    }
+}
+
+// Hämta kurs titel från Katalogtjänsten
+async function fetchCourseTitle(courseId) {
+    try {
+        const response = await fetch(`${KATALOG_BASE_URL}/api/courses/${courseId}`);
+        const course = await response.json();
+        return course.title;
+    } catch (error) {
+        // Om Katalogtjänsten inte svarar, visa courseId som fallback
+        return `Kurs ID: ${courseId}`;
+    }
+}
+
 // Hämta min registrerade kurser från API
 async function fetchMyRegistrations() {
     try {
@@ -89,20 +139,24 @@ async function fetchMyRegistrations() {
         const existingCards = myCoursesSection.querySelectorAll(".course-card");
         existingCards.forEach(card => card.remove());
 
-        registrations.forEach(reg => {
+        // Använd for...of för att kunna använda await inuti loopen
+        for (const reg of registrations) {
             const card = document.createElement("div");
             card.className = "course-card";
+
+            // Hämta kurs titel från Katalogtjänsten
+            const courseTitle = await fetchCourseTitle(reg.courseId);
 
             const button = role === "courseAdmin" || role === "IT-admin"
                 ? `<button class="btn btn-manage">Hantera kursen</button>`
                 : `<button class="btn btn-remove" onclick="deleteRegistration(${reg.registreringId})">Ta bort</button>`;
 
             card.innerHTML = `
-                <p>Kurs ID: ${reg.courseId} - Status: ${reg.status}</p>
+                <p>${courseTitle} - Status: ${reg.status}</p>
                 ${button}
             `;
             myCoursesSection.appendChild(card);
-        });
+        }
 
     } catch (error) {
         console.error("Fel vid hämtning av registreringar:", error);
@@ -121,14 +175,18 @@ async function fetchPendingRegistrations(courseId) {
 
         const pendingRegistrations = registrations.filter(r => r.status === "pending");
 
-        pendingRegistrations.forEach(reg => {
+        for (const reg of pendingRegistrations) {
             const card = document.createElement("div");
             card.className = "course-card-admin";
             card.dataset.registrationId = reg.registreringId;
+
+            // Hämta kurs titel från Katalogtjänsten
+            const courseTitle = await fetchCourseTitle(reg.courseId);
+
             card.innerHTML = `
                 <div class="card-info">
                     <p><strong>Student ID:</strong> ${reg.userId}</p>
-                    <p><strong>Kurs ID:</strong> ${reg.courseId}</p>
+                    <p><strong>Kurs:</strong> ${courseTitle}</p>
                 </div>
                 <div class="card-buttons">
                     <button class="btn btn-godkann">Godkänn</button>
@@ -145,7 +203,7 @@ async function fetchPendingRegistrations(courseId) {
             });
 
             hanteraSection.appendChild(card);
-        });
+        }
 
     } catch (error) {
         console.error("Fel vid hämtning av pending registreringar:", error);
@@ -175,7 +233,8 @@ async function fetchHistorik() {
             card.innerHTML = `
                 <div class="card-info">
                     <p><strong>Registrering ID:</strong> ${h.registrationId}</p>
-                    <p><strong>Från:</strong> ${h.oldStatus} → <strong>Till:</strong> ${h.newStatus}</p>
+                    <p><strong>Från:</strong> ${h.oldStatus}</p>
+                    <p><strong>Till:</strong> ${h.newStatus}</p>
                     <p><strong>Datum:</strong> ${new Date(h.changedDate).toLocaleString()}</p>
                 </div>
             `;
@@ -211,14 +270,6 @@ async function registerCourse(courseId) {
         console.error("Fel vid registrering:", error);
     }
 }
-
-// Lyssna på alla Registrera dig knappar
-document.querySelectorAll("#availableCoursesSection .btn-register").forEach(btn => {
-    btn.addEventListener("click", function() {
-        const courseId = this.closest(".course-card").dataset.courseId;
-        registerCourse(parseInt(courseId));
-    });
-});
 
 // Uppdatera status på en registrering
 async function updateStatus(registrationId, newStatus) {
@@ -264,6 +315,11 @@ showContentByRole(role);
 
 // Hämta data baserat på roll
 fetchMyRegistrations();
+
+// Hämta kurser från Katalogtjänsten för student och IT-admin
+if (role === "student" || role === "IT-admin") {
+    fetchAvailableCourses();
+}
 
 // Hämta pending registreringar och historik för courseAdmin/IT-admin
 if (role === "courseAdmin" || role === "IT-admin") {
