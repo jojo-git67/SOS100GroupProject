@@ -1,5 +1,6 @@
 using BookingAPI.Data;
 using BookingAPI.Models;
+using BookingAPI.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,13 +18,22 @@ public class RoomsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
+    public async Task<ActionResult<IEnumerable<RoomDto>>> GetRooms()
     {
-        return await _context.Rooms.ToListAsync();
+        var rooms = await _context.Rooms.ToListAsync();
+
+        var result = rooms.Select(r => new RoomDto
+        {
+            RoomId = r.RoomId,
+            RoomName = r.RoomName,
+            Capacity = r.Capacity
+        }).ToList();
+
+        return result;
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Room>> GetRoom(int id)
+    public async Task<ActionResult<RoomDto>> GetRoom(int id)
     {
         var room = await _context.Rooms.FindAsync(id);
 
@@ -32,22 +42,42 @@ public class RoomsController : ControllerBase
             return NotFound();
         }
 
-        return room;
+        var result = new RoomDto
+        {
+            RoomId = room.RoomId,
+            RoomName = room.RoomName,
+            Capacity = room.Capacity
+        };
+
+        return result;
     }
 
     [HttpPost]
-    public async Task<ActionResult<Room>> CreateRoom(Room room)
+    public async Task<ActionResult<RoomDto>> CreateRoom(RoomDto roomDto)
     {
+        var room = new Room
+        {
+            RoomName = roomDto.RoomName,
+            Capacity = roomDto.Capacity
+        };
+
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetRoom), new { id = room.RoomId }, room);
+        var result = new RoomDto
+        {
+            RoomId = room.RoomId,
+            RoomName = room.RoomName,
+            Capacity = room.Capacity
+        };
+
+        return CreatedAtAction(nameof(GetRoom), new { id = room.RoomId }, result);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRoom(int id, Room room)
+    public async Task<IActionResult> UpdateRoom(int id, RoomDto roomDto)
     {
-        if (id != room.RoomId)
+        if (id != roomDto.RoomId)
         {
             return BadRequest();
         }
@@ -59,8 +89,8 @@ public class RoomsController : ControllerBase
             return NotFound();
         }
 
-        existingRoom.RoomName = room.RoomName;
-        existingRoom.Capacity = room.Capacity;
+        existingRoom.RoomName = roomDto.RoomName;
+        existingRoom.Capacity = roomDto.Capacity;
 
         await _context.SaveChangesAsync();
 
@@ -75,6 +105,13 @@ public class RoomsController : ControllerBase
         if (room == null)
         {
             return NotFound();
+        }
+
+        var hasBookings = await _context.RoomBookings.AnyAsync(rb => rb.RoomId == id);
+
+        if (hasBookings)
+        {
+            return BadRequest("Rummet kan inte tas bort eftersom det finns bokningar kopplade till det.");
         }
 
         _context.Rooms.Remove(room);

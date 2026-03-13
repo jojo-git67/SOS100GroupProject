@@ -1,4 +1,5 @@
 using BookingAPI.Data;
+using BookingAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingAPI;
@@ -14,6 +15,8 @@ public class Program
 
         builder.Services.AddDbContext<BookingDbContext>(options =>
             options.UseSqlite("Data Source=booking.db"));
+
+        builder.Services.AddScoped<IRoomBookingService, RoomBookingService>();
 
         var app = builder.Build();
 

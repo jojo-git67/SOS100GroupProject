@@ -1,15 +1,17 @@
 @BookingAPI_HostAddress = https://localhost:7285
 
+###
+# ROOMS - GET ALL
 GET {{BookingAPI_HostAddress}}/api/rooms
 Accept: application/json
 
 ###
-
+# ROOMS - GET BY ID
 GET {{BookingAPI_HostAddress}}/api/rooms/1
 Accept: application/json
 
 ###
-
+# ROOMS - CREATE
 POST {{BookingAPI_HostAddress}}/api/rooms
 Content-Type: application/json
 
@@ -20,7 +22,7 @@ Content-Type: application/json
 }
 
 ###
-
+# ROOMS - UPDATE
 PUT {{BookingAPI_HostAddress}}/api/rooms/1
 Content-Type: application/json
 
@@ -31,18 +33,86 @@ Content-Type: application/json
 }
 
 ###
-
+# ROOMS - DELETE
 DELETE {{BookingAPI_HostAddress}}/api/rooms/1
 
 ###
-
+# ROOM BOOKINGS - GET ALL
 GET {{BookingAPI_HostAddress}}/api/roombookings
 Accept: application/json
 
 ###
-
+# ROOM BOOKINGS - GET BY ID
 GET {{BookingAPI_HostAddress}}/api/roombookings/1
 Accept: application/json
+
+###
+# ROOM BOOKINGS - CREATE (SHOULD WORK)
+POST {{BookingAPI_HostAddress}}/api/roombookings
+Content-Type: application/json
+
+{
+  "bookingId": 0,
+  "roomId": 1,
+  "date": "2026-03-15T00:00:00",
+  "startTime": "09:00:00",
+  "endTime": "10:00:00",
+  "activityId": 501,
+  "bookedByUserId": 10,
+  "status": "Created"
+}
+
+###
+# ROOM BOOKINGS - UPDATE (SHOULD WORK)
+PUT {{BookingAPI_HostAddress}}/api/roombookings/4
+Content-Type: application/json
+
+{
+  "bookingId": 4,
+  "roomId": 1,
+  "date": "2026-03-14T00:00:00",
+  "startTime": "14:00:00",
+  "endTime": "15:00:00",
+  "activityId": 404,
+  "bookedByUserId": 9,
+  "status": "UpdatedWithDto"
+}
+
+###
+# ROOM BOOKINGS - DELETE
+DELETE {{BookingAPI_HostAddress}}/api/roombookings/2
+
+###
+# ROOM BOOKINGS - CREATE (SHOULD FAIL, TIME CONFLICT)
+POST {{BookingAPI_HostAddress}}/api/roombookings
+Content-Type: application/json
+
+{
+  "bookingId": 0,
+  "roomId": 1,
+  "date": "2026-03-12T00:00:00",
+  "startTime": "10:15:00",
+  "endTime": "11:15:00",
+  "activityId": 601,
+  "bookedByUserId": 11,
+  "status": "ConflictTest"
+}
+
+###
+# ROOM BOOKINGS - UPDATE (SHOULD FAIL, TIME CONFLICT)
+PUT {{BookingAPI_HostAddress}}/api/roombookings/1
+Content-Type: application/json
+
+{
+  "bookingId": 1,
+  "roomId": 1,
+  "date": "2026-03-12T00:00:00",
+  "startTime": "10:00:00",
+  "endTime": "11:00:00",
+  "activityId": 202,
+  "bookedByUserId": 7,
+  "status": "ConflictUpdateTest"
+}
 
 ###
 
@@ -51,31 +121,11 @@ Content-Type: application/json
 
 {
   "bookingId": 0,
-  "roomId": 1,
-  "date": "2026-03-12T00:00:00",
+  "roomId": 999,
+  "date": "2026-03-16T00:00:00",
   "startTime": "09:00:00",
-  "endTime": "11:00:00",
-  "activityId": 101,
-  "bookedByUserId": 5,
-  "status": "Confirmed"
+  "endTime": "10:00:00",
+  "activityId": 777,
+  "bookedByUserId": 12,
+  "status": "WrongRoomTest"
 }
-
-###
-
-PUT {{BookingAPI_HostAddress}}/api/roombookings/1
-Content-Type: application/json
-
-{
-  "bookingId": 1,
-  "roomId": 1,
-  "date": "2026-03-13T00:00:00",
-  "startTime": "10:00:00",
-  "endTime": "12:00:00",
-  "activityId": 202,
-  "bookedByUserId": 7,
-  "status": "Updated"
-}
-
-###
-
-DELETE {{BookingAPI_HostAddress}}/api/roombookings/2
