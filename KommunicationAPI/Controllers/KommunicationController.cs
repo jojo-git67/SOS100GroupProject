@@ -32,10 +32,10 @@ namespace KommunicationAPI.Controllers
         
         
         //Returns a specific selected message by messageId
-        [HttpGet("messages/{id}")]
-        public async Task<IActionResult> GetMessageById(int id)
+        [HttpGet("messages/{messageId}")]
+        public async Task<IActionResult> GetMessageById(int messageId)
         {
-            var message = await _dbContext.Messages.FindAsync(id);
+            var message = await _dbContext.Messages.FindAsync(messageId);
 
             if (message == null)
             {
@@ -78,7 +78,24 @@ namespace KommunicationAPI.Controllers
             return Ok(message);
         }
         
-        //TODO: Add method to change status from unread to read
+        //Updates message.IsRead from false to true
+        
+        [HttpPatch("{messageId}/read")]
+        public async Task<IActionResult> MarkMessageAsRead(int messageId)
+        {
+            var message = await _dbContext.Messages.FindAsync(messageId);
+
+            if (message == null)
+                return NotFound();
+
+            if (!message.IsRead)
+            {
+                message.IsRead = true;
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return NoContent();
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMessage(int id)
