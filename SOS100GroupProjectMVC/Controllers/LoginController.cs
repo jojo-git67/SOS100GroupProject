@@ -27,7 +27,7 @@ public class LoginController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return View(model);
+            return View("Index");
         }
 
         Console.WriteLine("Model state valid");
@@ -38,17 +38,17 @@ public class LoginController : Controller
         if (credentials == null)
         {
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
-            return View(model);
+            return View("Index");
         }
         Console.WriteLine("User not null");
 
         //Converts input-string to hash-value with added salt from the found user
         string enteredHash = GetHashFunction(credentials.Salt + model.Password);
         Console.WriteLine("Hash successfully converted");
-        if (enteredHash != credentials.Password)
+        if (model.Password != credentials.Password)
         {
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
-            return View(model);
+            return View("Index");
         }
         Console.WriteLine("Entered hash matches password in database");
         return RedirectToAction("Index", "Home");
