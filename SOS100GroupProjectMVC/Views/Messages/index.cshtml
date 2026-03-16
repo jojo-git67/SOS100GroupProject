@@ -1,6 +1,16 @@
 @{
     ViewData["Title"] = "Meddelanden";
     @model List<SOS100GroupProjectMVC.DTOs.Message>;
+    
+using var client = new HttpClient();
+
+    var response = await client.GetAsync($"http://localhost:5282/api/Kommunication/user/1");
+
+    List<SOS100GroupProjectMVC.DTOs.Message> messages = new();
+        if (response.IsSuccessStatusCode)
+        {
+            messages = await response.Content.ReadFromJsonAsync<List<SOS100GroupProjectMVC.DTOs.Message>>();
+        }
 }
 <link rel="stylesheet" href="~/css/messages.css"/>
 <div id="title-menu">
@@ -34,20 +44,7 @@
 </div> 
     <div id="messages-container">
         <div id="messages-scrollmenu">
-            <!--TODO: Render data from database -->
-            <!-- -->
             @{
-                using var client = new HttpClient();
-
-                var response = await client.GetAsync($"http://localhost:5282/api/Kommunication/user/1");
-
-                List<SOS100GroupProjectMVC.DTOs.Message> messages = new();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    messages = await response.Content.ReadFromJsonAsync<List<SOS100GroupProjectMVC.DTOs.Message>>();
-                }
-
                 foreach (var message in messages)
                 {
                     <div class="messages-preview" id="@message.Id">
