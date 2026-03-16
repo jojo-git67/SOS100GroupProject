@@ -20,7 +20,7 @@ namespace KommunicationAPI.Controllers
         
         //Get all messages
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<Message>>> getAllMessagesForUser(int userId)
+        public async Task<ActionResult<IEnumerable<Message>>> GetAllMessagesForUser(int userId)
         {
             
             var messages = await _dbContext.Messages
@@ -31,9 +31,9 @@ namespace KommunicationAPI.Controllers
         }
         
         
-        //Returns a specific selected message
-        [HttpGet("user/{userId}/{senderId}")]
-        public async Task<IActionResult> getMessageById(int id)
+        //Returns a specific selected message by messageId
+        [HttpGet("messages/{id}")]
+        public async Task<IActionResult> GetMessageById(int id)
         {
             var message = await _dbContext.Messages.FindAsync(id);
 
@@ -45,9 +45,8 @@ namespace KommunicationAPI.Controllers
             return Ok(message);
         }
         
-        //TODO: Not working for some reason
         [HttpPost]
-        public async Task<IActionResult> createMessage([FromBody] CreateMessageDto dto)
+        public async Task<IActionResult> CreateMessage([FromBody] CreateMessageDto dto)
         {
             var message = new Message
             {
@@ -65,7 +64,7 @@ namespace KommunicationAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> updateMessage(int id, [FromBody] UpdateMessageDto dto)
+        public async Task<IActionResult> UpdateMessage(int id, [FromBody] UpdateMessageDto dto)
         {
             var message = await _dbContext.Messages.FindAsync(id);
 
@@ -82,7 +81,7 @@ namespace KommunicationAPI.Controllers
         //TODO: Add method to change status from unread to read
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> deleteMessage(int id)
+        public async Task<IActionResult> DeleteMessage(int id)
         {
             var message = await _dbContext.Messages.FindAsync(id);
 
