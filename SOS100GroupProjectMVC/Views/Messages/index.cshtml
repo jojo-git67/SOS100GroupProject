@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "Meddelanden";
+    @model List<SOS100GroupProjectMVC.DTOs.Message>;
 }
 <link rel="stylesheet" href="~/css/messages.css"/>
 <div id="title-menu">
@@ -35,25 +36,45 @@
         <div id="messages-scrollmenu">
             <!--TODO: Render data from database -->
             <!-- -->
-            @for (int i = 0; i < 10;i++)
-            {
-                <div class="messages-preview" id="@i">
-                    <h3>Datum</h3>
-                    <h4>Sändare</h4>
-                    <p>titel</p>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloribus voluptatibus voluptatem nemo laborum eveniet consequatur officia tempore? Culpa tempora, dolor repellat mollitia, nihil voluptas officia iure sapiente magni dolore modi?</p>
-                </div>
+            @{
+                using var client = new HttpClient();
+
+                var response = await client.GetAsync($"http://localhost:5282/api/Kommunication/user/1");
+
+                List<SOS100GroupProjectMVC.DTOs.Message> messages = new();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    messages = await response.Content.ReadFromJsonAsync<List<SOS100GroupProjectMVC.DTOs.Message>>();
+                }
+
+                foreach (var message in messages)
+                {
+                    <div class="messages-preview" id="@message.Id">
+                        
+                        <h3>
+                            @if (!message.IsRead)
+                            {
+                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            }
+                        @message.timestamp.ToShortDateString()
+                        </h3>
+                        <h4>@message.SenderId</h4>
+                        <!--TODO: Update Model and database with a migration and add column for title-->
+                        <p>titel</p>
+                        <p>@message.Content</p>
+                    </div>
+                }
+                
             }
         </div>
-        <!--TODO: Get message from database from selected item -->
         <div class="message">
             <div>
                 <h1>Titel</h1>
             </div>
+                
             <div>
-
             </div>
         </div>
-        
     </div>
 <script src="~/js/messages.js"></script>
