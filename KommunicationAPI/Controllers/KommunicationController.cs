@@ -7,8 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KommunicationAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    
     public class KommunicationController : ControllerBase
     {
         private readonly KommunicationDbContext _dbContext;
@@ -79,7 +80,6 @@ namespace KommunicationAPI.Controllers
         }
         
         //Updates message.IsRead from false to true
-        
         [HttpPatch("{messageId}/read")]
         public async Task<IActionResult> MarkMessageAsRead(int messageId)
         {

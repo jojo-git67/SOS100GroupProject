@@ -9,6 +9,17 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowMVC",
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:5266")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
 
         // Add services to the container.
 
@@ -23,18 +34,18 @@ public class Program
         });
         
         var app = builder.Build();
-
-        
         
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
             app.MapScalarApiReference();
+            
         }
         
         app.UseHttpsRedirection();
 
+        app.UseCors("AllowMVC");
         app.MapControllers();
         
         app.Run();

@@ -1,9 +1,11 @@
 const messages = document.getElementsByClassName("messages-preview");
 
-//TODO: change to foreach loop?
 for(let i = 0; i < messages.length; i++){
-    messages[i].addEventListener("click", function(){
+    messages[i].addEventListener("click", async function(){
         //console.log(messages[i].id);
-        //TODO: Add valid functionality
+        let inputString = "http://localhost:5282/api/Kommunication/" + messages[i].id + "/read";
+        await fetch(inputString, {
+            method: "PATCH"
+        });
     })
 }
