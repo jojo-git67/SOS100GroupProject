@@ -11,11 +11,15 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+        builder.Services.AddHttpClient();
+
         
         builder.Services.AddDbContext<UserDbContext>(options =>
             options.UseSqlite(
                 builder.Configuration.GetConnectionString("DefaultConnection")));
 
+        
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
