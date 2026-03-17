@@ -18,7 +18,7 @@ function getCookie(name) {
 
 // Läs roll och userId från cookie
 const userId = getCookie("userId") || "2";
-const role = getCookie("role") || "courseAdmin";
+const role = getCookie("role") || "IT-admin";
 
 // Göm alla sektioner först
 function hideAll() {
@@ -173,7 +173,7 @@ async function fetchPendingRegistrations(courseId) {
         const existingCards = hanteraSection.querySelectorAll(".course-card-admin");
         existingCards.forEach(card => card.remove());
 
-        const pendingRegistrations = registrations.filter(r => r.status === "pending");
+        const pendingRegistrations = registrations.filter(r => r.status === "väntande");
 
         for (const reg of pendingRegistrations) {
             const card = document.createElement("div");
@@ -195,11 +195,11 @@ async function fetchPendingRegistrations(courseId) {
             `;
 
             card.querySelector(".btn-godkann").addEventListener("click", function() {
-                updateStatus(reg.registreringId, "confirmed");
+                updateStatus(reg.registreringId, "godkänd");
             });
 
             card.querySelector(".btn-neka").addEventListener("click", function() {
-                updateStatus(reg.registreringId, "rejected");
+                updateStatus(reg.registreringId, "nekad");
             });
 
             hanteraSection.appendChild(card);
