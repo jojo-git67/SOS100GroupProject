@@ -15,7 +15,14 @@
     <div id="navigation-menu">
         <ul>                
             <li><a href=""><i class="fa fa-envelope-o" aria-hidden="true"></i>Meddelanden</a></li>
-            <li><a href=""><i class="fa fa-user-circle-o"></i>Logga ut</a></li>
+            @if (Context.Request.Cookies["userId"] != null)
+            {
+                <li><a href="/Login/Logout"><i class="fa fa-user-circle-o"></i>Logga ut</a></li>
+            }
+            else
+            {
+                <li><a href="/Login"><i class="fa fa-user-circle-o"></i>Logga in</a></li>
+            }
         </ul>
     </div>
 </nav>
