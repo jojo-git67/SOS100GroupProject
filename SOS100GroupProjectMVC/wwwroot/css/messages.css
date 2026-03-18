@@ -16,30 +16,47 @@ body {
     justify-content: space-evenly;
     padding: 1em;
 }
+
 select {
     font-size: 1.5rem;
 }
+
 #messages-container {
     display: flex;
 
 }
-#messages-scrollmenu {
-    overflow: scroll;
-    overflow-x: hidden;
-    height: 600px;
-    white-space: nowrap;
-    width: 20%;
-}
+
 .messages-preview {
     margin: 0;
     padding: .2em;
     border-bottom: 1px solid black;
 }
+
 .messages-preview:hover {
     cursor: pointer;
     background-color: lightgray;
 }
-.message {
-    border-left: 1px solid black;
+
+#messages-container {
+    display: flex;
+    height: 600px;
+}
+
+#messages-scrollmenu {
+    overflow-y: auto;
+    width: 25%;
+    min-width: 250px;
+    border-right: 1px solid black;
+}
+
+#selected-message {
+    flex: 1; 
     padding: 1em;
+    overflow-y: auto; 
+}
+
+#selected-message-body {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }

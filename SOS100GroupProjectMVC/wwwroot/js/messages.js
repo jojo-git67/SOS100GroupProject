@@ -1,8 +1,17 @@
 let messages = document.querySelectorAll(".messages-preview");
 
-messages.forEach(message => {
-    message.addEventListener("click", async function () {
+let titleEl = document.getElementById("selected-message-title");
+let bodyEl = document.getElementById("selected-message-body");
 
+messages.forEach(msg => {
+    msg.addEventListener("click", async function () {
+        
+        titleEl.textContent = this.dataset.title;
+        bodyEl.textContent = this.dataset.content;
+        
+        messages.forEach(m => m.classList.remove("active"));
+        this.classList.add("active");
+        
         let url = `http://localhost:5282/api/Kommunication/${this.id}/read`;
 
         try {

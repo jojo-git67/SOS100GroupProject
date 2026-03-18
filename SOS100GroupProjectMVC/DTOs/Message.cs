@@ -8,4 +8,5 @@ public class Message
     public string Content { get; set; }
     public DateTime timestamp { get; set; }
     public bool IsRead { get; set; }
+    public string Title { get; set; }
 }

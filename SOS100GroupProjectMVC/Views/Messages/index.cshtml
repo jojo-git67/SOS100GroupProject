@@ -37,7 +37,10 @@
             @{
                 foreach (var message in Model)
                 {
-                    <div class="messages-preview" id="@message.Id">
+                    <div class="messages-preview"
+                         id="@message.Id"
+                         data-title="@message.Title"
+                         data-content="@message.Content">
                         
                         <h3>
                             @if (!message.IsRead)
@@ -46,22 +49,16 @@
                             }
                             @message.timestamp.ToShortDateString()
                         </h3>
-                        <h4>@message.SenderId</h4>
-                        <!--TODO: Update Model and database with a migration and add column for title-->
-                        <p>titel</p>
+                        <h4>@message.Title</h4>
                         <p>@message.Content</p>
                     </div>
                 }
                 
             }
         </div>
-        <div class="message">
-            <div>
-                <h1>Titel</h1>
-            </div>
-                
-            <div>
-            </div>
+        <div id="selected-message">
+            <h1 id="selected-message-title">Välj ett meddelande för att visa det här</h1>
+            <div id="selected-message-body"></div>
         </div>
     </div>
 <script src="~/js/messages.js"></script>
