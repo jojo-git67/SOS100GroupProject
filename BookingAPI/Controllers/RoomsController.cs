@@ -29,7 +29,7 @@ public class RoomsController : ControllerBase
             Capacity = r.Capacity
         }).ToList();
 
-        return result;
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
@@ -39,7 +39,7 @@ public class RoomsController : ControllerBase
 
         if (room == null)
         {
-            return NotFound();
+            return NotFound("Rummet hittades inte.");
         }
 
         var result = new RoomDto
@@ -49,7 +49,66 @@ public class RoomsController : ControllerBase
             Capacity = room.Capacity
         };
 
-        return result;
+        return Ok(result);
+    }
+
+    [HttpGet("{id}/bookings")]
+    public async Task<ActionResult<IEnumerable<RoomBooking>>> GetBookingsForRoom(int id)
+    {
+        var roomExists = await _context.Rooms.AnyAsync(r => r.RoomId == id);
+
+        if (!roomExists)
+        {
+            return NotFound("Rummet hittades inte.");
+        }
+
+        var bookings = await _context.RoomBookings
+            .Where(rb => rb.RoomId == id)
+            .ToListAsync();
+
+        var sortedBookings = bookings
+            .OrderBy(rb => rb.Date)
+            .ThenBy(rb => rb.StartTime)
+            .ToList();
+
+        return Ok(sortedBookings);
+    }
+
+    [HttpGet("available")]
+    public async Task<ActionResult<IEnumerable<RoomDto>>> GetAvailableRooms(
+        [FromQuery] DateTime date,
+        [FromQuery] TimeSpan startTime,
+        [FromQuery] TimeSpan endTime)
+    {
+        if (endTime <= startTime)
+        {
+            return BadRequest("Sluttiden måste vara efter starttiden.");
+        }
+
+        var allBookings = await _context.RoomBookings.ToListAsync();
+
+        var conflictingRoomIds = allBookings
+            .Where(rb =>
+                rb.Date.Date == date.Date &&
+                startTime < rb.EndTime &&
+                endTime > rb.StartTime)
+            .Select(rb => rb.RoomId)
+            .Distinct()
+            .ToList();
+
+        var allRooms = await _context.Rooms.ToListAsync();
+
+        var availableRooms = allRooms
+            .Where(r => !conflictingRoomIds.Contains(r.RoomId))
+            .Select(r => new RoomDto
+            {
+                RoomId = r.RoomId,
+                RoomName = r.RoomName,
+                Capacity = r.Capacity
+            })
+            .ToList();
+
+        return Ok(availableRooms);
     }
 
     [HttpPost]
@@ -79,14 +138,14 @@ public class RoomsController : ControllerBase
     {
         if (id != roomDto.RoomId)
         {
-            return BadRequest();
+            return BadRequest("ID matchar inte.");
         }
 
         var existingRoom = await _context.Rooms.FindAsync(id);
 
         if (existingRoom == null)
         {
-            return NotFound();
+            return NotFound("Rummet hittades inte.");
         }
 
         existingRoom.RoomName = roomDto.RoomName;
@@ -104,7 +163,7 @@ public class RoomsController : ControllerBase
 
         if (room == null)
         {
-            return NotFound();
+            return NotFound("Rummet hittades inte.");
         }
 
         var hasBookings = await _context.RoomBookings.AnyAsync(rb => rb.RoomId == id);

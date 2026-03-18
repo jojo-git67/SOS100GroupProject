@@ -37,6 +37,16 @@ Content-Type: application/json
 DELETE {{BookingAPI_HostAddress}}/api/rooms/1
 
 ###
+# ROOMS - GET BOOKINGS FOR ROOM
+GET {{BookingAPI_HostAddress}}/api/rooms/1/bookings
+Accept: application/json
+
+###
+# ROOMS - GET AVAILABLE ROOMS
+GET {{BookingAPI_HostAddress}}/api/rooms/available?date=2026-03-20&startTime=10:00:00&endTime=11:00:00
+Accept: application/json
+
+###
 # ROOM BOOKINGS - GET ALL
 GET {{BookingAPI_HostAddress}}/api/roombookings
 Accept: application/json
@@ -115,7 +125,7 @@ Content-Type: application/json
 }
 
 ###
-
+# ROOM BOOKINGS - CREATE (SHOULD FAIL, ROOM DOES NOT EXIST)
 POST {{BookingAPI_HostAddress}}/api/roombookings
 Content-Type: application/json
 

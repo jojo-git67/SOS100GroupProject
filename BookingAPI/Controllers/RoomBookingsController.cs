@@ -24,7 +24,7 @@ public class RoomBookingsController : ControllerBase
     public async Task<ActionResult<IEnumerable<RoomBookingDto>>> GetRoomBookings()
     {
         var bookings = await _roomBookingService.GetAllBookingsAsync();
-        return bookings;
+        return Ok(bookings);
     }
 
     [HttpGet("{id}")]
@@ -34,10 +34,10 @@ public class RoomBookingsController : ControllerBase
 
         if (booking == null)
         {
-            return NotFound();
+            return NotFound("Bokningen hittades inte.");
         }
 
-        return booking;
+        return Ok(booking);
     }
 
     [HttpPost]
@@ -55,31 +55,33 @@ public class RoomBookingsController : ControllerBase
             return BadRequest("Det angivna rummet finns inte.");
         }
 
-        var roomBooking = new RoomBooking
-        {
-            RoomId = roomBookingDto.RoomId,
-            Date = roomBookingDto.Date.Date,
-            StartTime = roomBookingDto.StartTime,
-            EndTime = roomBookingDto.EndTime,
-            ActivityId = roomBookingDto.ActivityId,
-            BookedByUserId = roomBookingDto.BookedByUserId,
-            Status = roomBookingDto.Status
-        };
+        var bookingDate = roomBookingDto.Date.Date;
 
         var sameRoomBookings = await _context.RoomBookings
-            .Where(rb => rb.RoomId == roomBooking.RoomId)
+            .Where(rb => rb.RoomId == roomBookingDto.RoomId)
             .ToListAsync();
 
         bool conflict = sameRoomBookings.Any(rb =>
-            rb.Date.Date == roomBooking.Date.Date &&
-            roomBooking.StartTime < rb.EndTime &&
-            roomBooking.EndTime > rb.StartTime
+            rb.Date.Date == bookingDate &&
+            roomBookingDto.StartTime < rb.EndTime &&
+            roomBookingDto.EndTime > rb.StartTime
         );
 
         if (conflict)
         {
             return BadRequest("Rummet är redan bokat under den tiden.");
         }
+
+        var roomBooking = new RoomBooking
+        {
+            RoomId = roomBookingDto.RoomId,
+            Date = bookingDate,
+            StartTime = roomBookingDto.StartTime,
+            EndTime = roomBookingDto.EndTime,
+            ActivityId = roomBookingDto.ActivityId,
+            BookedByUserId = roomBookingDto.BookedByUserId,
+            Status = roomBookingDto.Status
+        };
 
         _context.RoomBookings.Add(roomBooking);
         await _context.SaveChangesAsync();
@@ -104,7 +106,7 @@ public class RoomBookingsController : ControllerBase
     {
         if (id != roomBookingDto.BookingId)
         {
-            return BadRequest();
+            return BadRequest("ID matchar inte.");
         }
 
         if (roomBookingDto.EndTime <= roomBookingDto.StartTime)
@@ -116,7 +118,7 @@ public class RoomBookingsController : ControllerBase
 
         if (existingRoomBooking == null)
         {
-            return NotFound();
+            return NotFound("Bokningen hittades inte.");
         }
 
         var roomExists = await _context.Rooms.AnyAsync(r => r.RoomId == roomBookingDto.RoomId);
@@ -163,7 +165,7 @@ public class RoomBookingsController : ControllerBase
 
         if (roomBooking == null)
         {
-            return NotFound();
+            return NotFound("Bokningen hittades inte.");
         }
 
         _context.RoomBookings.Remove(roomBooking);
