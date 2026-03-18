@@ -17,8 +17,8 @@ function getCookie(name) {
 }
 
 // Läs roll och userId från cookie
-const userId = getCookie("userId") || "2";
-const role = getCookie("role") || "IT-admin";
+const userId = getCookie("userId");
+const role = getCookie("role");
 
 // Göm alla sektioner först
 function hideAll() {
