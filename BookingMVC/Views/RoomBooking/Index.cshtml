@@ -1,0 +1,46 @@
+@model BookingMVC.Models.RoomBookingPageViewModel
+
+@{
+    ViewData["Title"] = "Rumsbokning";
+}
+
+<link rel="stylesheet" href="~/css/roombooking.css" />
+
+<div id="title-menu">
+    <div>
+        <h1>Rumsbokning</h1>
+    </div>
+</div>
+
+<div id="room-booking-page">
+    <section class="panel">
+        <h2>Rum</h2>
+        <div class="card-list">
+            @foreach (var room in Model.Rooms)
+            {
+                <div class="info-card">
+                    <h3>@room.RoomName</h3>
+                    <p><strong>Rums-ID:</strong> @room.RoomId</p>
+                    <p><strong>Kapacitet:</strong> @room.Capacity</p>
+                </div>
+            }
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Bokningar</h2>
+        <div class="card-list">
+            @foreach (var booking in Model.Bookings)
+            {
+                <div class="info-card">
+                    <h3>Rum @booking.RoomId</h3>
+                    <p><strong>Datum:</strong> @booking.Date.ToShortDateString()</p>
+                    <p><strong>Tid:</strong> @booking.StartTime - @booking.EndTime</p>
+                    <p><strong>Aktivitet:</strong> @booking.ActivityId</p>
+                    <p><strong>Bokad av användare:</strong> @booking.BookedByUserId</p>
+                    <p><strong>Status:</strong> @booking.Status</p>
+                </div>
+            }
+        </div>
+    </section>
+</div>
