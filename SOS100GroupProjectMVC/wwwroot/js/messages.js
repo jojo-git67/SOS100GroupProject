@@ -1,12 +1,22 @@
-const messages = document.getElementsByClassName("messages-preview");
+let messages = document.querySelectorAll(".messages-preview");
 
-for(let i = 0; i < messages.length; i++){
-    messages[i].addEventListener("click", async function(){
-        //console.log(messages[i].id);
-        //TODO: Switch to AJAX
-        let inputString = "http://localhost:5282/api/Kommunication/" + messages[i].id + "/read";
-        await fetch(inputString, {
-            method: "PATCH"
-        });
-    })
-}
+messages.forEach(message => {
+    message.addEventListener("click", async function () {
+
+        let url = `http://localhost:5282/api/Kommunication/${this.id}/read`;
+
+        try {
+            let response = await fetch(url, { method: "PATCH" });
+
+            if (response.ok) {
+                let icon = this.querySelector(".unread-icon");
+                if (icon) {
+                    icon.remove();
+                }
+            }
+
+        } catch (err) {
+            console.error(err);
+        }
+    });
+});

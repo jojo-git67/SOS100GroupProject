@@ -45,7 +45,7 @@ public class LoginController : Controller
         //Converts input-string to hash-value with added salt from the found user
         string enteredHash = GetHashFunction(credentials.Salt + model.Password);
         Console.WriteLine("Hash successfully converted");
-        if (model.Password != credentials.Password)
+        if (enteredHash != credentials.Password)
         {
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
             return View("Index");
@@ -57,7 +57,7 @@ public class LoginController : Controller
     //Logout
     public async Task<IActionResult> Logout()
     {
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index", "Login");
     }
 
     private string GetHashFunction(string input)

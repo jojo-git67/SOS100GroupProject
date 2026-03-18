@@ -52,9 +52,9 @@ using var client = new HttpClient();
                         <h3>
                             @if (!message.IsRead)
                             {
-                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                <i class="fa fa-exclamation-circle unread-icon" aria-hidden="true"></i>
                             }
-                        @message.timestamp.ToShortDateString()
+                            @message.timestamp.ToShortDateString()
                         </h3>
                         <h4>@message.SenderId</h4>
                         <!--TODO: Update Model and database with a migration and add column for title-->
