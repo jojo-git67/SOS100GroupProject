@@ -5,21 +5,25 @@
 
 
 }
+<link rel="stylesheet" href="~/css/login.css" asp-append-version="true"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<main>
+    
+</main>
+<div class="form-container">
+    <form asp-action="Login" asp-controller="Login" method="post">
 
-<h2>Login</h2>
+        <div>
+            <label>Username</label>
+            <input asp-for="UserName"/>
+        </div>
 
-<form asp-action="Login" asp-controler="Login" method="post">
+        <div>
+            <label>Password</label>
+            <input asp-for="Password" type="password"/>
+        </div>
 
-    <div>
-        <label>Username</label>
-        <input asp-for="UserName" />
-    </div>
+        <button type="submit">Login</button>
 
-    <div>
-        <label>Password</label>
-        <input asp-for="Password" type="password" />
-    </div>
-
-    <button type="submit">Login</button>
-
-</form>
+    </form>
+</div>
