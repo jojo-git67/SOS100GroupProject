@@ -36,6 +36,10 @@ namespace KommunicationAPI.Migrations
                     b.Property<int>("SenderId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("timestamp")
                         .HasColumnType("TEXT");
 
