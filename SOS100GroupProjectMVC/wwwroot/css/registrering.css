@@ -1,0 +1,130 @@
+﻿/* ===========================
+   Registrering Page Styles
+   =========================== */
+
+/* Page container - centers everything */
+.page-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Sökfält */
+.search-container {
+    margin-bottom: 1.5rem;
+}
+
+.search-container input {
+    width: 300px;
+    padding: 0.5rem;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.search-container input:focus {
+    outline: none;
+    border: 2px solid #000000;
+}
+
+/* Sektioner */
+.section {
+    margin-bottom: 2rem;
+    border-top: 1px solid #000000;
+    padding-top: 1rem;
+}
+
+/* Kurs kort */
+.course-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    width: 90%;
+}
+
+.course-card p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Admin kurs kort - information visas vertikalt */
+.course-card-admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    width: 90%;
+}
+
+.course-card-admin .card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.course-card-admin p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Fixa margin för knapparna */
+.card-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+/* ===== Bas knapp stil - delas av alla knappar ===== */
+.btn {
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    transition: all 0.2s;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.btn:active {
+    background-color: #000000;
+    color: #FFFFFF;
+    transform: scale(0.95);
+}
+
+/* Neka knapp - omvänd färg */
+.btn-neka {
+    background-color: #ff1818;
+    color: #FFFFFF;
+    border: 1px solid #000000;
+}
+
+.btn-neka:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.btn-neka:active {
+    background-color: #ff1818;
+    color: #FFFFFF;
+    transform: scale(0.95);
+}
+
+#adminCoursesSectionTitle{
+    display:none;
+}

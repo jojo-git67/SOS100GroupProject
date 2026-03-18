@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserAPI", "UserAPI\UserAPI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseCatalogAPI", "CourseCatalogAPI\CourseCatalogAPI.csproj", "{7F24200C-C999-4A57-B839-57A92E9FAA85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Registreringstjansten", "Registreringstjansten\Registreringstjansten.csproj", "{D18B05A6-FD05-4532-B5DC-FB704E8C9834}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{FF454862-759E-4B30-B378-ED65C236A99B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF454862-759E-4B30-B378-ED65C236A99B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF454862-759E-4B30-B378-ED65C236A99B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D18B05A6-FD05-4532-B5DC-FB704E8C9834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D18B05A6-FD05-4532-B5DC-FB704E8C9834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D18B05A6-FD05-4532-B5DC-FB704E8C9834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D18B05A6-FD05-4532-B5DC-FB704E8C9834}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
