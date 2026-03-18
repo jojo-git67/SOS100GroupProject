@@ -49,7 +49,7 @@ public class LoginController : Controller
         Console.WriteLine("Hash successfully converted");
 
         // Compare entered hash with saved password hash
-        if (model.Password != credentials.Password)
+        if (enteredHash != credentials.Password)
         {
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
             return View("Index");
