@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Meddelanden";
+    @model List<SOS100GroupProjectMVC.DTOs.Message>
+}
+<link rel="stylesheet" href="~/css/messages.css"/>
+<div id="title-menu">
+        <div>
+            <h1>Inkorg</h1>
+        </div>
+        <div>
+            <button>Skriv nytt meddelande</button>
+        </div>
+    </div> 
+<div id="filter-menu">
+    
+</div> 
+    <div id="messages-container">
+        <div id="messages-scrollmenu">
+            @{
+                if (Model.Count > 0)
+                {
+                    foreach (var message in Model)
+                    {
+                        <div class="messages-preview"
+                             id="@message.Id"
+                             data-title="@message.Title"
+                             data-content="@message.Content">
+                        
+                            <h3>
+                                @if (!message.IsRead)
+                                {
+                                    <i class="fa fa-exclamation-circle unread-icon" aria-hidden="true"></i>
+                                }
+                                @message.timestamp.ToShortDateString()
+                            </h3>
+                            <h4>@message.Title</h4>
+                            <p>@message.Content</p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h2>Du har inga meddelanden att visa</h2>
+                }
+            }
+        </div>
+        <div id="selected-message">
+            <h1 id="selected-message-title">Välj ett meddelande för att visa det här</h1>
+            <div id="selected-message-body"></div>
+        </div>
+    </div>
+<script src="~/js/messages.js"></script>
