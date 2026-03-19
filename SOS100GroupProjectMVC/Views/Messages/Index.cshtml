@@ -8,7 +8,7 @@
             <h1>Inkorg</h1>
         </div>
         <div>
-            <button>Skriv nytt meddelande</button>
+            <a class="btn btn-primary" asp-action="CreateMessage" asp-controller="Messages"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Skriv nytt meddelande</a>
         </div>
     </div> 
 <div id="filter-menu">
@@ -27,11 +27,11 @@
                              data-content="@message.Content">
                         
                             <h3>
+                                @message.timestamp.ToShortDateString()
                                 @if (!message.IsRead)
                                 {
                                     <i class="fa fa-exclamation-circle unread-icon" aria-hidden="true"></i>
                                 }
-                                @message.timestamp.ToShortDateString()
                             </h3>
                             <h4>@message.Title</h4>
                             <p>@message.Content</p>
