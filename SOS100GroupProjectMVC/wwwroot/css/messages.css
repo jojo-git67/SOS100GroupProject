@@ -32,9 +32,19 @@ select {
     border-bottom: 1px solid black;
 }
 
+h3 {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 1em;
+}
+
+.unread-icon {
+    color: red;
+}
+
 .messages-preview:hover {
     cursor: pointer;
-    background-color: lightgray;
+    background-color: #EAEFEF;
 }
 
 #messages-container {
@@ -60,7 +70,8 @@ select {
     overflow-wrap: break-word;
     white-space: normal;
 }
-button {
+
+.btn {
     background-color: #000000;
     color: #FFFFFF;
     border: none;
@@ -71,7 +82,7 @@ button {
     display: inline-block;
 }
 
-button:hover {
+.btn:hover {
     transform: scale(1.1);
     transition: all 0.2s;
     border: 1px solid #000000;
@@ -79,7 +90,7 @@ button:hover {
     color: #000000;
 }
 
-button:active {
+.btn:active {
     background-color: #000000;
     color: #FFFFFF;
     transform: scale(0.95);
