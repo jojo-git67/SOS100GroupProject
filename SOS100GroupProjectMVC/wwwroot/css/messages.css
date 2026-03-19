@@ -60,3 +60,27 @@ select {
     overflow-wrap: break-word;
     white-space: normal;
 }
+button {
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+button:hover {
+    transform: scale(1.1);
+    transition: all 0.2s;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+button:active {
+    background-color: #000000;
+    color: #FFFFFF;
+    transform: scale(0.95);
+}
