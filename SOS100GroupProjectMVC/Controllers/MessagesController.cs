@@ -31,7 +31,9 @@ public class MessagesController : Controller
 
         var messages = await response.Content
             .ReadFromJsonAsync<List<Message>>();
+        
 
         return View(messages);
     }
+
 }
