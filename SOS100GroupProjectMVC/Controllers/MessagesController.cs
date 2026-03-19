@@ -14,15 +14,13 @@ public class MessagesController : Controller
     
     public async Task<IActionResult> Index()
     {
-        var userId = Request.Cookies["userId"];
-
-        if (string.IsNullOrEmpty(userId))
+        if (!IsLoggedIn())
         {
             return RedirectToAction("Index", "Login");
         }
 
         var response = await _httpClient.GetAsync(
-            $"http://localhost:5282/api/Kommunication/user/{userId}");
+            $"http://localhost:5282/api/Kommunication/user/{Request.Cookies["userId"]}");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -34,6 +32,38 @@ public class MessagesController : Controller
         
 
         return View(messages);
+    }
+
+    public async Task<IActionResult> CreateMessage()
+    {
+        if (!IsLoggedIn())
+        {
+            return RedirectToAction("Index", "Login");
+        }
+        
+        var response = await _httpClient.GetAsync(
+            $"http://localhost:5041/api/Registrering/user/{Request.Cookies["userId"]}");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return View(new List<Registration>());
+        }
+        
+        var registrations = await response.Content
+            .ReadFromJsonAsync<List<Registration>>();
+        
+        return View(registrations);
+    }
+
+    public bool IsLoggedIn()
+    {
+        var userId = Request.Cookies["userId"];
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return false;
+        }
+        return true;
     }
 
 }
