@@ -32,9 +32,19 @@ select {
     border-bottom: 1px solid black;
 }
 
+h3 {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 1em;
+}
+
+.unread-icon {
+    color: red;
+}
+
 .messages-preview:hover {
     cursor: pointer;
-    background-color: lightgray;
+    background-color: #EAEFEF;
 }
 
 #messages-container {
@@ -59,4 +69,29 @@ select {
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
+}
+
+.btn {
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    transition: all 0.2s;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.btn:active {
+    background-color: #000000;
+    color: #FFFFFF;
+    transform: scale(0.95);
 }

@@ -20,6 +20,10 @@ public class LoginController : Controller
     // GET
     public IActionResult Index()
     {
+        if ((Request.Cookies["userId"] != null) && Request.Cookies["role"] != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
         return View();
     }
 
