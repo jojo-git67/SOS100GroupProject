@@ -4,9 +4,9 @@ namespace SOS100GroupProjectMVC.DTOs;
 
 public class LoginViewModel
 {
-    [Required]
+    [Required(ErrorMessage = "Användarnamn är obligatoriskt")]
     public string UserName { get; set; }
-
-    [Required]
+    
+    [Required(ErrorMessage = "Lösenord är obligatoriskt")]
     public string Password { get; set; }
 }

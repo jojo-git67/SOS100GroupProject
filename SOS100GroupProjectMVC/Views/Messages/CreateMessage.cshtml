@@ -1,0 +1,26 @@
+@{
+    
+}
+<link rel="stylesheet" href="~/css/createMessage.css" asp-append-version="true"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="new-message-container">
+    <h1>Skriv meddelande</h1>
+    <form asp-action="SendMessage" asp-controller="Messages" method="post">
+    
+        <label>Mottagare</label>
+        <select name="ReceiverId">
+            @foreach (var user in ViewBag.Users)
+            {
+                <option value="@user.UserId">@user.UserName</option>
+            }
+        </select>
+
+        <label>Ämne</label>
+        <input type="text" name="Title" />
+
+        <label>Meddelande</label>
+        <textarea name="Content"></textarea>
+
+        <button type="submit">Skicka</button>
+    </form>
+</div>
