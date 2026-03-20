@@ -70,6 +70,7 @@ public class LoginController : Controller
         // Set cookies for other services
         Response.Cookies.Append("userId", user.UserId.ToString());
         Response.Cookies.Append("role", user.Role);
+        Response.Cookies.Append("userName", user.UserName);
 
         return RedirectToAction("Index", "Home");
     }
@@ -79,6 +80,7 @@ public class LoginController : Controller
     {
         Response.Cookies.Delete("userId");
         Response.Cookies.Delete("role");
+        Response.Cookies.Delete("userName");
 
         return RedirectToAction("Index", "Login");
     }

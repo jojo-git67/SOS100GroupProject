@@ -4,7 +4,7 @@
 const API_BASE_URL = "http://localhost:5041";
 
 // Katalogtjänsten bas URL - ändra till rätt port när hon kör lokalt
-const KATALOG_BASE_URL = "http://localhost:XXXX"; // hennes port här
+const KATALOG_BASE_URL = "http://localhost:5149"; // hennes port här
 
 // Hämta cookie värde med namn
 function getCookie(name) {
@@ -323,6 +323,6 @@ if (role === "student" || role === "IT-admin") {
 
 // Hämta pending registreringar och historik för courseAdmin/IT-admin
 if (role === "courseAdmin" || role === "IT-admin") {
-    fetchPendingRegistrations(1);
+    fetchPendingRegistrations(3);
     fetchHistorik();
 }
