@@ -23,6 +23,16 @@ public class Program
                 builder.Configuration.GetConnectionString("DefaultConnection")));
 
         var app = builder.Build();
+        
+        // Apply database migration at startup
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            var dbContext = services.GetRequiredService<UserDbContext>();
+            dbContext.Database.Migrate();
+            
+        }
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
