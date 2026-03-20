@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using SOS100GroupProjectMVC.Data;
 using SOS100GroupProjectMVC.DTOs;
@@ -24,6 +25,7 @@ public class LoginController : Controller
         {
             return RedirectToAction("Index", "Home");
         }
+        //AddDefaultUsers();
         return View();
     }
 
@@ -102,4 +104,33 @@ public class LoginController : Controller
             return builder.ToString();
         }
     }
+    /*
+    private void AddDefaultUsers()
+    {
+        if (!_userDbContext.Users.Any(u => u.UserName == "admin"))
+        {
+            string defaultPassword = "admin!";
+            string salt = "AdminSalt123";
+            string hashedPassword = GetHashFunction(salt + defaultPassword);
+
+            var adminUser = new User
+            {
+                UserName = "admin",
+                UserEmail = "admin@example.com",
+                FirstName = "Admin",
+                LastName = "User",
+                Role = "IT-admin",
+                Credentials = new UserCredentials
+                {
+                    UserName = "admin",
+                    Salt = salt,
+                    Password = hashedPassword
+                }
+            };
+
+            _userDbContext.Users.Add(adminUser);
+            _userDbContext.SaveChanges();
+        }
+    }
+    */
 }
