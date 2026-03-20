@@ -6,7 +6,7 @@ namespace SOS100GroupProjectMVC;
 public class Program
 {
     public static void Main(string[] args)
-    {
+    { 
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
@@ -17,15 +17,9 @@ public class Program
             options.UseSqlite(
                 builder.Configuration.GetConnectionString("DefaultConnection")));
 
-        // Registrera UserDbContext
-        builder.Services.AddDbContext<UserDbContext>(options =>
-            options.UseSqlite(
-                builder.Configuration.GetConnectionString("DefaultConnection")));
-
         var app = builder.Build();
         
         // Apply database migration at startup
-
         using (var scope = app.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
