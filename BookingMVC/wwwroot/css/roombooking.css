@@ -22,6 +22,26 @@ body {
     margin-bottom: 1rem;
 }
 
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.booking-group {
+    margin-bottom: 2rem;
+}
+
+.booking-count {
+    border: 1px solid #000000;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.95rem;
+    background-color: #F5F5F5;
+}
+
 .card-list {
     display: flex;
     flex-direction: column;
@@ -41,4 +61,91 @@ body {
 
 .info-card p {
     margin: 0.35rem 0;
+}
+
+.booking-card {
+    border-left: 5px solid #000000;
+}
+
+.booking-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+
+.booking-badge {
+    border: 1px solid #000000;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.9rem;
+    background-color: #F2F2F2;
+    white-space: nowrap;
+}
+
+.newest-booking {
+    background-color: #EAEFEF;
+    border: 2px solid #000000;
+}
+
+.old-booking {
+    opacity: 0.9;
+    background-color: #FAFAFA;
+}
+
+.booking-form {
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.form-row input,
+.form-row select {
+    padding: 0.6rem;
+    border: 1px solid #000000;
+    font-size: 1rem;
+}
+
+.action-button {
+    background-color: #EAEFEF;
+    color: #000000;
+    border: 1px solid #000000;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.action-button:hover {
+    transform: scale(1.03);
+    transition: 0.2s ease;
+}
+
+.message-box {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #000000;
+}
+
+.success-message {
+    background-color: #EAEFEF;
+}
+
+.error-message {
+    background-color: #f8d7da;
+}
+
+.empty-state {
+    border: 1px dashed #000000;
+    padding: 1rem;
+    background-color: #FAFAFA;
 }
