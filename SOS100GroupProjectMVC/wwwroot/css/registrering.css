@@ -2,14 +2,14 @@
    Registrering Page Styles
    =========================== */
 
-/* Page container - centers everything */
+/* Page container to center everything */
 .page-container {
     max-width: 700px;
     margin: 2rem auto;
     padding: 0 1rem;
 }
 
-/* Sökfält */
+/* Search field */
 .search-container {
     margin-bottom: 1.5rem;
 }
@@ -27,14 +27,14 @@
     border: 2px solid #000000;
 }
 
-/* Sektioner */
+/* Page sections */
 .section {
     margin-bottom: 2rem;
     border-top: 1px solid #000000;
     padding-top: 1rem;
 }
 
-/* Kurs kort */
+/* Course card */
 .course-card {
     display: flex;
     justify-content: space-between;
@@ -51,7 +51,7 @@
     font-size: 1rem;
 }
 
-/* Admin kurs kort - information visas vertikalt */
+/* Admin course card to display the information vertically */
 .course-card-admin {
     display: flex;
     justify-content: space-between;
@@ -74,14 +74,14 @@
     font-size: 1rem;
 }
 
-/* Fixa margin för knapparna */
+/* Button group with spacing */
 .card-buttons {
     display: flex;
     gap: 0.5rem;
     margin-left: auto;
 }
 
-/* ===== Bas knapp stil - delas av alla knappar ===== */
+/* ===== Base button style. Is shared by all buttons ===== */
 .btn {
     background-color: #000000;
     color: #FFFFFF;
@@ -107,7 +107,7 @@
     transform: scale(0.95);
 }
 
-/* Neka knapp - omvänd färg */
+/* Reject button with inverted colors */
 .btn-neka {
     background-color: #ff1818;
     color: #FFFFFF;
@@ -125,6 +125,7 @@
     transform: scale(0.95);
 }
 
+/* Hidden by default. It's shown when courseAdmin is logged in */
 #adminCoursesSectionTitle{
     display:none;
 }

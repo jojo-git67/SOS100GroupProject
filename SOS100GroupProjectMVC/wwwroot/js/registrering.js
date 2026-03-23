@@ -1,12 +1,12 @@
-﻿// Registrering sida - JavaScript logik
+﻿// Registrering page - JavaScript logic
 
-// API bas URL - ändra till Azure URL när vi deployar
+// API base URL - change to Azure URL when deploying
 const API_BASE_URL = "http://localhost:5041";
 
-// Katalogtjänsten bas URL - ändra till rätt port när hon kör lokalt
-const KATALOG_BASE_URL = "http://localhost:5149"; // hennes port här
+// Katalogtjänsten base URL - change to correct port when running locally
+const KATALOG_BASE_URL = "http://localhost:5149";
 
-// Hämta cookie värde med namn
+// Get cookie value by name
 function getCookie(name) {
     const cookies = document.cookie.split(';');
     for (let cookie of cookies) {
@@ -16,11 +16,11 @@ function getCookie(name) {
     return null;
 }
 
-// Läs roll och userId från cookie
+// Read role and userId from cookie
 const userId = getCookie("userId");
 const role = getCookie("role");
 
-// Göm alla sektioner först
+// Hide all sections first
 function hideAll() {
     document.getElementById("searchContainer").style.display = "none";
     document.getElementById("availableCoursesSection").style.display = "none";
@@ -29,7 +29,7 @@ function hideAll() {
     document.getElementById("historikSection").style.display = "none";
 }
 
-// Visa sektioner baserat på roll
+// Show sections based on user role
 function showContentByRole(role) {
     hideAll();
 
@@ -68,7 +68,7 @@ function showContentByRole(role) {
     }
 }
 
-// Sökfunktion - filtrerar kurser baserat på input
+// Search function - filters courses based on input
 document.getElementById("searchInput").addEventListener("input", function() {
     const searchValue = this.value.toLowerCase();
     const courseCards = document.querySelectorAll("#availableCoursesSection .course-card");
@@ -82,7 +82,7 @@ document.getElementById("searchInput").addEventListener("input", function() {
     });
 });
 
-// Hämta alla kurser från Katalogtjänsten
+// Fetch all available courses from Katalogtjänsten
 async function fetchAvailableCourses() {
     try {
         const response = await fetch(`${KATALOG_BASE_URL}/api/courses`);
@@ -99,12 +99,11 @@ async function fetchAvailableCourses() {
             card.innerHTML = `
                 <p>${course.title}</p>
                 <div class="card-buttons">
-                    <button class="btn btn-info">Läs mer</button>
                     <button class="btn btn-register">Registrera dig</button>
                 </div>
             `;
 
-            // Lägg till event listener på Registrera dig knapp
+            // Add event listener to the register button
             card.querySelector(".btn-register").addEventListener("click", function() {
                 registerCourse(course.courseId);
             });
@@ -113,23 +112,23 @@ async function fetchAvailableCourses() {
         });
 
     } catch (error) {
-        console.error("Fel vid hämtning av kurser från Katalogtjänsten:", error);
+        console.error("Error fetching courses from Katalogtjänsten:", error);
     }
 }
 
-// Hämta kurs titel från Katalogtjänsten
+// Fetch course title from Katalogtjänsten by courseId
 async function fetchCourseTitle(courseId) {
     try {
         const response = await fetch(`${KATALOG_BASE_URL}/api/courses/${courseId}`);
         const course = await response.json();
         return course.title;
     } catch (error) {
-        // Om Katalogtjänsten inte svarar, visa courseId som fallback
+        // If Katalogtjänsten is unavailable show courseId as fallback
         return `Kurs ID: ${courseId}`;
     }
 }
 
-// Hämta min registrerade kurser från API
+// Fetch all registrations for the logged in student / IT-admin
 async function fetchMyRegistrations() {
     try {
         const response = await fetch(`${API_BASE_URL}/api/Registrering/user/${userId}`);
@@ -139,17 +138,16 @@ async function fetchMyRegistrations() {
         const existingCards = myCoursesSection.querySelectorAll(".course-card");
         existingCards.forEach(card => card.remove());
 
-        // Använd for...of för att kunna använda await inuti loopen
+        // Use for...of to allow await inside the loop
         for (const reg of registrations) {
             const card = document.createElement("div");
             card.className = "course-card";
 
-            // Hämta kurs titel från Katalogtjänsten
+            // Fetch course title from Katalogtjänsten
             const courseTitle = await fetchCourseTitle(reg.courseId);
 
-            const button = role === "courseAdmin" || role === "IT-admin"
-                ? `<button class="btn btn-manage">Hantera kursen</button>`
-                : `<button class="btn btn-remove" onclick="deleteRegistration(${reg.registreringId})">Ta bort</button>`;
+            const button =
+                `<button class="btn btn-remove" onclick="deleteRegistration(${reg.registreringId})">Ta bort</button>`;
 
             card.innerHTML = `
                 <p>${courseTitle} - Status: ${reg.status}</p>
@@ -159,20 +157,47 @@ async function fetchMyRegistrations() {
         }
 
     } catch (error) {
-        console.error("Fel vid hämtning av registreringar:", error);
+        console.error("Error fetching registrations:", error);
     }
 }
 
-// Hämta pending registreringar för courseAdmin
+// Fetch courses that the logged in courseAdmin is responsible for
+async function fetchAdminCourses() {
+    try {
+        const response = await fetch(`${KATALOG_BASE_URL}/api/courses`);
+        const courses = await response.json();
+
+        const myCoursesSection = document.getElementById("myCoursesSection");
+        const existingCards = myCoursesSection.querySelectorAll(".course-card");
+        existingCards.forEach(card => card.remove());
+
+        const myCourses = courses.filter(course => course.teacherId === parseInt(userId));
+
+        for (const course of myCourses) {
+            const card = document.createElement("div");
+            card.className = "course-card";
+
+            card.innerHTML = `
+                <p>${course.title} (Kurs ID: ${course.courseId})</p>
+            `;
+
+            myCoursesSection.appendChild(card);
+        }
+
+    } catch (error) {
+        console.error("Error fetching admin courses:", error);
+    }
+}
+
+// Fetch pending registrations for a specific course
 async function fetchPendingRegistrations(courseId) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/Registrering/course/${courseId}`);
         const registrations = await response.json();
 
         const hanteraSection = document.getElementById("hanteraSection");
-        const existingCards = hanteraSection.querySelectorAll(".course-card-admin");
-        existingCards.forEach(card => card.remove());
 
+        // Filter only pending registrations
         const pendingRegistrations = registrations.filter(r => r.status === "väntande");
 
         for (const reg of pendingRegistrations) {
@@ -180,13 +205,13 @@ async function fetchPendingRegistrations(courseId) {
             card.className = "course-card-admin";
             card.dataset.registrationId = reg.registreringId;
 
-            // Hämta kurs titel från Katalogtjänsten
+            // Fetch course title from Katalogtjänsten
             const courseTitle = await fetchCourseTitle(reg.courseId);
 
             card.innerHTML = `
                 <div class="card-info">
                     <p><strong>Student ID:</strong> ${reg.userId}</p>
-                    <p><strong>Kurs:</strong> ${courseTitle}</p>
+                    <p><strong>Kurs:</strong> ${courseTitle} (ID: ${reg.courseId})</p>
                 </div>
                 <div class="card-buttons">
                     <button class="btn btn-godkann">Godkänn</button>
@@ -206,19 +231,57 @@ async function fetchPendingRegistrations(courseId) {
         }
 
     } catch (error) {
-        console.error("Fel vid hämtning av pending registreringar:", error);
+        console.error("Error fetching pending registrations:", error);
     }
 }
 
-// Hämta status historik
+// Fetch status history based on role
 async function fetchHistorik() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/Registrering/user/${userId}/history`);
-        const history = await response.json();
-
         const historikSection = document.getElementById("historikSection");
         const existingCards = historikSection.querySelectorAll(".course-card-admin");
         existingCards.forEach(card => card.remove());
+
+        const existingParagraphs = historikSection.querySelectorAll("p");
+        existingParagraphs.forEach(p => {
+            if (p.textContent === "Ingen historik hittades.") {
+                p.remove();
+            }
+        });
+
+        let history = [];
+
+        // Student uses history by user
+        if (role === "student") {
+            const response = await fetch(`${API_BASE_URL}/api/Registrering/user/${userId}/history`);
+            history = await response.json();
+        }
+
+        // courseAdmin uses history by managed courses
+        else if (role === "courseAdmin") {
+            const coursesResponse = await fetch(`${KATALOG_BASE_URL}/api/courses`);
+            const courses = await coursesResponse.json();
+
+            const myCourses = courses.filter(course => course.teacherId === parseInt(userId));
+
+            for (const course of myCourses) {
+                const response = await fetch(`${API_BASE_URL}/api/Registrering/course/${course.courseId}/history`);
+                const courseHistory = await response.json();
+                history = history.concat(courseHistory);
+            }
+        }
+
+        // IT-admin uses history for all courses
+        else if (role === "IT-admin") {
+            const coursesResponse = await fetch(`${KATALOG_BASE_URL}/api/courses`);
+            const courses = await coursesResponse.json();
+
+            for (const course of courses) {
+                const response = await fetch(`${API_BASE_URL}/api/Registrering/course/${course.courseId}/history`);
+                const courseHistory = await response.json();
+                history = history.concat(courseHistory);
+            }
+        }
 
         if (history.length === 0) {
             const empty = document.createElement("p");
@@ -242,11 +305,11 @@ async function fetchHistorik() {
         });
 
     } catch (error) {
-        console.error("Fel vid hämtning av historik:", error);
+        console.error("Error fetching history:", error);
     }
 }
 
-// Registrera dig på en kurs
+// Register user for a course via POST request
 async function registerCourse(courseId) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/Registrering`, {
@@ -267,11 +330,11 @@ async function registerCourse(courseId) {
             alert("Något gick fel, försök igen!");
         }
     } catch (error) {
-        console.error("Fel vid registrering:", error);
+        console.error("Error registering for course:", error);
     }
 }
 
-// Uppdatera status på en registrering
+// Update status of a registration via PUT request
 async function updateStatus(registrationId, newStatus) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/Registrering/${registrationId}?newStatus=${newStatus}`, {
@@ -283,17 +346,22 @@ async function updateStatus(registrationId, newStatus) {
 
         if (response.ok) {
             alert(`Registrering ${newStatus}!`);
-            fetchPendingRegistrations(1);
-            fetchHistorik();
+
+            if (role === "courseAdmin") {
+                initAdmin();
+            } else if (role === "IT-admin") {
+                initItAdmin();
+            }
+
         } else {
             alert("Något gick fel, försök igen!");
         }
     } catch (error) {
-        console.error("Fel vid statusuppdatering:", error);
+        console.error("Error updating status:", error);
     }
 }
 
-// Ta bort registrering
+// Delete a registration via DELETE request
 async function deleteRegistration(registreringId) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/Registrering/${registreringId}`, {
@@ -303,26 +371,71 @@ async function deleteRegistration(registreringId) {
         if (response.ok) {
             fetchMyRegistrations();
         } else {
-            console.error("Kunde inte ta bort registrering");
+            console.error("Could not delete registration");
         }
     } catch (error) {
-        console.error("Fel vid borttagning:", error);
+        console.error("Error deleting registration:", error);
     }
 }
 
-// Kör roll logik
-showContentByRole(role);
+// Fetch pending registrations and history for courseAdmin
+async function initAdmin() {
+    try {
+        const response = await fetch(`${KATALOG_BASE_URL}/api/courses`);
+        const courses = await response.json();
 
-// Hämta data baserat på roll
-fetchMyRegistrations();
+        const myCourses = courses.filter(course => course.teacherId === parseInt(userId));
 
-// Hämta kurser från Katalogtjänsten för student och IT-admin
-if (role === "student" || role === "IT-admin") {
-    fetchAvailableCourses();
+        const hanteraSection = document.getElementById("hanteraSection");
+        const existingCards = hanteraSection.querySelectorAll(".course-card-admin");
+        existingCards.forEach(card => card.remove());
+
+        for (const course of myCourses) {
+            await fetchPendingRegistrations(course.courseId);
+        }
+
+        fetchHistorik();
+
+    } catch (error) {
+        console.error("Error loading admin data:", error);
+    }
 }
 
-// Hämta pending registreringar och historik för courseAdmin/IT-admin
-if (role === "courseAdmin" || role === "IT-admin") {
-    fetchPendingRegistrations(3);
-    fetchHistorik();
+// Fetch all pending registrations and history for IT-admin
+async function initItAdmin() {
+    try {
+        const response = await fetch(`${KATALOG_BASE_URL}/api/courses`);
+        const courses = await response.json();
+
+        const hanteraSection = document.getElementById("hanteraSection");
+        const existingCards = hanteraSection.querySelectorAll(".course-card-admin");
+        existingCards.forEach(card => card.remove());
+
+        for (const course of courses) {
+            await fetchPendingRegistrations(course.courseId);
+        }
+
+        fetchHistorik();
+
+    } catch (error) {
+        console.error("Error loading IT-admin data:", error);
+    }
+}
+
+// Run role logic on page load
+showContentByRole(role);
+
+// Fetch data based on role
+if (role === "student") {
+    fetchMyRegistrations();
+    fetchAvailableCourses();
+}
+else if (role === "courseAdmin") {
+    fetchAdminCourses();
+    initAdmin();
+}
+else if (role === "IT-admin") {
+    fetchMyRegistrations();
+    fetchAvailableCourses();
+    initItAdmin();
 }

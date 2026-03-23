@@ -7,80 +7,34 @@
 
     <h2>Registrering</h2>
 
-    <!-- Sök efter kurs -->
+    <!-- Search -->
     <div class="search-container" id="searchContainer">
         <input type="text" id="searchInput" placeholder="Sök efter kurs..." />
     </div>
 
-    <!-- Tillgängliga kurser -->
-    <!-- TODO: Data hämtas från Katalogtjänsten API -->
-    <!-- Ansvarig: Katalogtjänsten ägare -->
-    <!-- Endpoint: GET /api/katalog/courses -->
+    <!-- Available courses (filled by JS) -->
     <div class="section" id="availableCoursesSection">
         <h3>Tillgängliga kurser</h3>
-        <div class="course-card" data-course-id="1">
-            <p>Informationssäkerhet</p>
-            <div class="card-buttons">
-                <button class="btn btn-info">Läs mer</button>
-                <button class="btn btn-register">Registrera dig</button>
-            </div>
-        </div>
-        <div class="course-card" data-course-id="2">
-            <p>System arkitektur och systemintegration</p>
-            <div class="card-buttons">
-                <button class="btn btn-info">Läs mer</button>
-                <button class="btn btn-register">Registrera dig</button>
-            </div>
-        </div>
-        <div class="course-card" data-course-id="3">
-            <p>Grundläggande webbutveckling</p>
-            <div class="card-buttons">
-                <button class="btn btn-info">Läs mer</button>
-                <button class="btn btn-register">Registrera dig</button>
-            </div>
-        </div>
     </div>
 
-    <!-- Min registrerade kurser -->
-    <!-- TODO: Data hämtas från Registreringstjänsten API -->
-    <!-- Ansvarig: Du (Registreringstjänsten ägare) -->
-    <!-- Endpoint: GET /api/Registrering/user/{userId} -->
+    <!-- My courses -->
     <div class="section" id="myCoursesSection">
         <h3 id="myCoursesSectionTitle">Min registrerade kurser</h3>
-        <h3 id="adminCoursesSectionTitle" style="display:none;">Kurserna som du ansvarar för</h3>
-        <!-- Mock data - ersätts av JavaScript via API -->
-        <!--
-        <div class="course-card">
-            <p>Informationssäkerhet</p>
-            <button class="btn btn-remove">Ta bort</button>
-        </div>
-        <div class="course-card">
-            <p>Grundläggande webbutveckling</p>
-            <button class="btn btn-remove">Ta bort</button>
-        </div>
-        -->
+        <h3 id="adminCoursesSectionTitle" style="display:none;">
+            Kurserna som du ansvarar för
+        </h3>
     </div>
 
-    <!-- Hantera registreringar - endast courseAdmin och IT-admin -->
+    <!-- Admin: manage registrations -->
     <div class="section" id="hanteraSection">
         <h3>Hantera registreringar</h3>
-        <div class="course-card-admin" data-registration-id="1">
-            <div class="card-info">
-                <p><strong>Student:</strong> Anna Andersson</p>
-                <p><strong>Kurs:</strong> Informationssäkerhet</p>
-            </div>
-            <div class="card-buttons">
-                <button class="btn btn-godkann">Godkänn</button>
-                <button class="btn btn-neka">Neka</button>
-            </div>
-        </div>
     </div>
-    
-    <!-- Status historik - endast courseAdmin och IT-admin -->
+
+    <!-- History -->
     <div class="section" id="historikSection">
         <h3>Status historik</h3>
-        <!-- Fylls av JavaScript via API -->
     </div>
+
 </div>
 
 

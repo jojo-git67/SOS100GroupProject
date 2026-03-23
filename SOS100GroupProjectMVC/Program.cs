@@ -11,22 +11,16 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
-        builder.Services.AddHttpClient();
+
+        // Registrera UserDbContext
         builder.Services.AddDbContext<UserDbContext>(options =>
             options.UseSqlite(
                 builder.Configuration.GetConnectionString("DefaultConnection")));
 
         var app = builder.Build();
 
-        // Apply database migration at startup
-        using (var scope = app.Services.CreateScope())
-        {
-            var services = scope.ServiceProvider;
-            var dbContext = services.GetRequiredService<UserDbContext>();
-            dbContext.Database.Migrate();
-        }
-
         // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
@@ -35,12 +29,13 @@ public class Program
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseAuthorization();
+
         app.MapStaticAssets();
         app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Login}/{action=Index}/{id?}")
+                pattern: "{controller=Home}/{action=Index}/{id?}")
             .WithStaticAssets();
 
         app.Run();
     }
-}  
+}

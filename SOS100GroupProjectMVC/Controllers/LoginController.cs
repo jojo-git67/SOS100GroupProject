@@ -20,10 +20,6 @@ public class LoginController : Controller
     // GET
     public IActionResult Index()
     {
-        if ((Request.Cookies["userId"] != null) && Request.Cookies["role"] != null)
-        {
-            return RedirectToAction("Index", "Home");
-        }
         return View();
     }
 
@@ -53,7 +49,7 @@ public class LoginController : Controller
         Console.WriteLine("Hash successfully converted");
 
         // Compare entered hash with saved password hash
-        if (enteredHash != credentials.Password)
+        if (model.Password != credentials.Password)
         {
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
             return View("Index");
