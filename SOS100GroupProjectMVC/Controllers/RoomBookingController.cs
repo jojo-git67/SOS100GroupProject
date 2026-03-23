@@ -12,6 +12,52 @@ public class RoomBookingController : Controller
         return View(model);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+        };
+
+        using var client = new HttpClient(handler);
+
+        var bookingResponse = await client.GetAsync($"https://localhost:7285/api/roombookings/{id}");
+        var roomsResponse = await client.GetAsync("https://localhost:7285/api/rooms");
+
+        if (!bookingResponse.IsSuccessStatusCode)
+        {
+            TempData["ErrorMessage"] = "Bokningen kunde inte hämtas.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        var booking = await bookingResponse.Content.ReadFromJsonAsync<RoomBookingDto>();
+        var rooms = new List<RoomDto>();
+
+        if (roomsResponse.IsSuccessStatusCode)
+        {
+            var roomList = await roomsResponse.Content.ReadFromJsonAsync<List<RoomDto>>();
+            if (roomList != null)
+            {
+                rooms = roomList;
+            }
+        }
+
+        if (booking == null)
+        {
+            TempData["ErrorMessage"] = "Bokningen kunde inte hämtas.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        var model = new RoomBookingPageViewModel
+        {
+            Rooms = rooms,
+            NewBooking = booking
+        };
+
+        return View(model);
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateBooking(RoomBookingDto newBooking)
     {
@@ -33,6 +79,80 @@ public class RoomBookingController : Controller
             var errorMessage = await response.Content.ReadAsStringAsync();
             TempData["ErrorMessage"] = string.IsNullOrWhiteSpace(errorMessage)
                 ? "Något gick fel när bokningen skulle skapas."
+                : errorMessage;
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateBooking(RoomBookingDto booking)
+    {
+        var handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+        };
+
+        using var client = new HttpClient(handler);
+
+        var response = await client.PutAsJsonAsync(
+            $"https://localhost:7285/api/roombookings/{booking.BookingId}",
+            booking);
+
+        if (response.IsSuccessStatusCode)
+        {
+            TempData["SuccessMessage"] = "Bokningen uppdaterades.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        var errorMessage = await response.Content.ReadAsStringAsync();
+
+        var roomsResponse = await client.GetAsync("https://localhost:7285/api/rooms");
+        var rooms = new List<RoomDto>();
+
+        if (roomsResponse.IsSuccessStatusCode)
+        {
+            var roomList = await roomsResponse.Content.ReadFromJsonAsync<List<RoomDto>>();
+            if (roomList != null)
+            {
+                rooms = roomList;
+            }
+        }
+
+        TempData["ErrorMessage"] = string.IsNullOrWhiteSpace(errorMessage)
+            ? "Något gick fel när bokningen skulle uppdateras."
+            : errorMessage;
+
+        var model = new RoomBookingPageViewModel
+        {
+            Rooms = rooms,
+            NewBooking = booking
+        };
+
+        return View("Edit", model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteBooking(int id)
+    {
+        var handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+        };
+
+        using var client = new HttpClient(handler);
+
+        var response = await client.DeleteAsync($"https://localhost:7285/api/roombookings/{id}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            TempData["SuccessMessage"] = "Bokningen avbokades.";
+        }
+        else
+        {
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            TempData["ErrorMessage"] = string.IsNullOrWhiteSpace(errorMessage)
+                ? "Något gick fel när bokningen skulle tas bort."
                 : errorMessage;
         }
 

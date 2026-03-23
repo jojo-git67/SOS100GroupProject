@@ -65,18 +65,64 @@ body {
     font-size: 1rem;
 }
 
+/* Gemensam knappstil */
+.btn,
 .action-button {
-    background-color: #EAEFEF;
-    color: #000000;
-    border: 1px solid #000000;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
     padding: 0.75rem 1rem;
     cursor: pointer;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-block;
     width: fit-content;
 }
 
+.btn:hover,
 .action-button:hover {
     transform: scale(1.03);
-    transition: 0.2s ease;
+    transition: all 0.2s ease;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.btn:active,
+.action-button:active {
+    background-color: #000000;
+    color: #FFFFFF;
+    transform: scale(0.97);
+}
+
+/* Röd knapp för avboka */
+.btn-neka {
+    background-color: #ff1818;
+    color: #FFFFFF;
+    border: 1px solid #000000;
+}
+
+.btn-neka:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.btn-neka:active {
+    background-color: #ff1818;
+    color: #FFFFFF;
+    transform: scale(0.97);
+}
+
+/* Knappar inne i bokningskort */
+.card-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.card-buttons form {
+    margin: 0;
 }
 
 .message-box {

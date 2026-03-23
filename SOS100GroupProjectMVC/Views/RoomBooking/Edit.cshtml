@@ -1,0 +1,64 @@
+@model SOS100GroupProjectMVC.Models.RoomBookingPageViewModel
+
+@{
+    ViewData["Title"] = "Ändra bokning";
+}
+
+<link rel="stylesheet" href="~/css/roombooking.css" />
+
+<div id="title-menu">
+    <div>
+        <h1>Ändra bokning</h1>
+    </div>
+</div>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="message-box error-message">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div id="room-booking-page">
+    <section class="panel">
+        <h2>Uppdatera bokning</h2>
+
+        <form asp-action="UpdateBooking" method="post" class="booking-form">
+            <input asp-for="NewBooking.BookingId" type="hidden" name="BookingId" />
+            <input asp-for="NewBooking.ActivityId" type="hidden" name="ActivityId" />
+            <input asp-for="NewBooking.BookedByUserId" type="hidden" name="BookedByUserId" />
+            <input asp-for="NewBooking.Status" type="hidden" name="Status" />
+
+            <div class="form-row">
+                <label asp-for="NewBooking.RoomId">Rum</label>
+                <select asp-for="NewBooking.RoomId" name="RoomId" required>
+                    <option value="">Välj rum</option>
+                    @foreach (var room in Model.Rooms)
+                    {
+                        <option value="@room.RoomId">@room.RoomName (@room.Capacity platser)</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label asp-for="NewBooking.Date">Datum</label>
+                <input asp-for="NewBooking.Date" name="Date" type="date" required />
+            </div>
+
+            <div class="form-row">
+                <label asp-for="NewBooking.StartTime">Starttid</label>
+                <input asp-for="NewBooking.StartTime" name="StartTime" type="time" step="1" required />
+            </div>
+
+            <div class="form-row">
+                <label asp-for="NewBooking.EndTime">Sluttid</label>
+                <input asp-for="NewBooking.EndTime" name="EndTime" type="time" step="1" required />
+            </div>
+
+            <div class="card-buttons">
+                <button type="submit" class="btn">Spara ändringar</button>
+                <a asp-action="Index" class="btn">Tillbaka</a>
+            </div>
+        </form>
+    </section>
+</div>

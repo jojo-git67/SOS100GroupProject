@@ -62,7 +62,7 @@
             <input asp-for="NewBooking.BookedByUserId" name="BookedByUserId" type="hidden" />
             <input asp-for="NewBooking.Status" name="Status" type="hidden" />
 
-            <button type="submit" class="action-button">Boka</button>
+            <button type="submit" class="btn">Boka</button>
         </form>
     </section>
 
@@ -80,14 +80,25 @@
     </section>
 
     <section class="panel">
-        <h2>Bokningar</h2>
+        <h2>Dina bokningar</h2>
         <div class="card-list">
             @foreach (var booking in Model.Bookings)
             {
+                var room = Model.Rooms.FirstOrDefault(r => r.RoomId == booking.RoomId);
+
                 <div class="info-card">
-                    <h3>Rum @booking.RoomId</h3>
+                    <h3>@(room != null ? room.RoomName : $"Rum {booking.RoomId}")</h3>
                     <p><strong>Datum:</strong> @booking.Date.ToShortDateString()</p>
-                    <p><strong>Tid:</strong> @booking.StartTime - @booking.EndTime</p>
+                    <p><strong>Tid:</strong> @booking.StartTime.ToString(@"hh\:mm") - @booking.EndTime.ToString(@"hh\:mm")</p>
+
+                    <div class="card-buttons">
+                        <a asp-action="Edit" asp-route-id="@booking.BookingId" class="btn">Ändra</a>
+
+                        <form asp-action="DeleteBooking" method="post">
+                            <input type="hidden" name="id" value="@booking.BookingId" />
+                            <button type="submit" class="btn btn-neka">Avboka</button>
+                        </form>
+                    </div>
                 </div>
             }
         </div>
