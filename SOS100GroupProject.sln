@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOS100GroupProjectMVC", "SO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingAPI", "BookingAPI\BookingAPI.csproj", "{006596A8-ACD0-4660-8EC1-8AA7546B175D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingMVC", "BookingMVC\BookingMVC.csproj", "{578776C3-A174-456C-B751-4D771C50CDEA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +18,5 @@ Global
 		{006596A8-ACD0-4660-8EC1-8AA7546B175D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{006596A8-ACD0-4660-8EC1-8AA7546B175D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{006596A8-ACD0-4660-8EC1-8AA7546B175D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{578776C3-A174-456C-B751-4D771C50CDEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{578776C3-A174-456C-B751-4D771C50CDEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{578776C3-A174-456C-B751-4D771C50CDEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{578776C3-A174-456C-B751-4D771C50CDEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
