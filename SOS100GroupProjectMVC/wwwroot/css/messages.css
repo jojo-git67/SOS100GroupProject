@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+}
+
+#title-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1em;
+    border-bottom: 1px solid black;
+}
+
+#filter-menu {
+    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1em;
+}
+
+select {
+    font-size: 1.5rem;
+}
+
+#messages-container {
+    display: flex;
+
+}
+
+.messages-preview {
+    margin: 0;
+    padding: .2em;
+    border-bottom: 1px solid black;
+}
+
+h3 {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 1em;
+}
+
+.unread-icon {
+    color: red;
+}
+
+.messages-preview:hover {
+    cursor: pointer;
+    background-color: #EAEFEF;
+}
+
+#messages-container {
+    display: flex;
+    height: 600px;
+}
+
+#messages-scrollmenu {
+    overflow-y: auto;
+    width: 25%;
+    min-width: 250px;
+    border-right: 1px solid black;
+}
+
+#selected-message {
+    flex: 1; 
+    padding: 1em;
+    overflow-y: auto; 
+}
+
+#selected-message-body {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.btn {
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    transition: all 0.2s;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.btn:active {
+    background-color: #000000;
+    color: #FFFFFF;
+    transform: scale(0.95);
+}

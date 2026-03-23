@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SOS100GroupProjectMVC.Data;
 using SOS100GroupProjectMVC.DTOs;
+using SOS100GroupProjectMVC.Models;
 
 namespace SOS100GroupProjectMVC.Controllers;
 
@@ -19,6 +20,10 @@ public class LoginController : Controller
     // GET
     public IActionResult Index()
     {
+        if ((Request.Cookies["userId"] != null) && Request.Cookies["role"] != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
         return View();
     }
 
@@ -31,33 +36,57 @@ public class LoginController : Controller
         }
 
         Console.WriteLine("Model state valid");
+
         var credentials = await _userDbContext.UserCredentials
             .FirstOrDefaultAsync(c => c.UserName == model.UserName);
-        
-        Console.WriteLine("User found");
+
         if (credentials == null)
         {
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
             return View("Index");
         }
-        Console.WriteLine("User not null");
 
-        //Converts input-string to hash-value with added salt from the found user
+        Console.WriteLine("User found");
+
+        // Converts input-string to hash-value with added salt from the found user
         string enteredHash = GetHashFunction(credentials.Salt + model.Password);
         Console.WriteLine("Hash successfully converted");
-        if (model.Password != credentials.Password)
+
+        // Compare entered hash with saved password hash
+        if (enteredHash != credentials.Password)
         {
             ModelState.AddModelError("", "Fel användarnamn eller lösenord");
             return View("Index");
         }
+
         Console.WriteLine("Entered hash matches password in database");
+
+        // Get full user object to access UserId and Role
+        var user = await _userDbContext.Users
+            .FirstOrDefaultAsync(u => u.UserName == model.UserName);
+
+        if (user == null)
+        {
+            ModelState.AddModelError("", "Användaren hittades inte");
+            return View("Index");
+        }
+
+        // Set cookies for other services
+        Response.Cookies.Append("userId", user.UserId.ToString());
+        Response.Cookies.Append("role", user.Role);
+        Response.Cookies.Append("userName", user.UserName);
+
         return RedirectToAction("Index", "Home");
     }
 
-    //Logout
-    public async Task<IActionResult> Logout()
+    // Logout
+    public IActionResult Logout()
     {
-        return RedirectToAction("Index", "Home");
+        Response.Cookies.Delete("userId");
+        Response.Cookies.Delete("role");
+        Response.Cookies.Delete("userName");
+
+        return RedirectToAction("Index", "Login");
     }
 
     private string GetHashFunction(string input)
@@ -70,7 +99,7 @@ public class LoginController : Controller
             {
                 builder.Append(b.ToString("x2"));
             }
-            return builder.ToString(); 
+            return builder.ToString();
         }
     }
 }

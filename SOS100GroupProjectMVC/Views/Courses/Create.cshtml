@@ -1,0 +1,42 @@
+@model SOS100GroupProjectMVC.Models.CourseViewModel
+
+@{
+    ViewData["Title"] = "Skapa kurs";
+}
+
+<link rel="stylesheet" href="~/css/courses.css" asp-append-version="true"/>
+
+<h1>Skapa kurs</h1>
+
+<div class="form-container">
+    <form method="post" action="/Courses/Create">
+        <div class="form-group">
+            <label>Titel</label>
+            <input type="text" name="Title" required />
+        </div>
+        <div class="form-group">
+            <label>Beskrivning</label>
+            <textarea name="Description" required></textarea>
+        </div>
+        <div class="form-group">
+            <label>Lärare ID</label>
+            <input type="number" name="TeacherId" required />
+        </div>
+        <div class="form-group">
+            <label>Max deltagare</label>
+            <input type="number" name="MaxParticipants" required />
+        </div>
+        <div class="form-group">
+            <label>Startdatum</label>
+            <input type="date" name="StartDate" required />
+        </div>
+        <div class="form-group">
+            <label>Slutdatum</label>
+            <input type="date" name="EndDate" required />
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn">Spara</button>
+            <a href="/Courses" class="btn">Avbryt</a>
+        </div>
+    </form>
+</div>
