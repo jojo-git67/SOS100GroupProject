@@ -1,25 +1,34 @@
-using CourseCatalogAPI.Models;
 using CourseCatalogAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddEndpointsApiExplorer();  // ✅ Ersätter AddOpenApi()
-builder.Services.AddSwaggerGen();             // ✅ Ersätter AddOpenApi()
-
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
 builder.Services.AddDbContext<CourseDbContext>(options =>
     options.UseSqlite("Data Source=courses.db"));
 
+// Lägg till CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowMVC",
+        policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();      // ✅ Ersätter MapOpenApi()
-    app.UseSwaggerUI();    // ✅ Ersätter MapOpenApi()
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+    
 }
 
+app.UseCors("AllowMVC");
 app.UseHttpsRedirection();
-
-app.Run(); 
+app.MapControllers();
+app.Run();

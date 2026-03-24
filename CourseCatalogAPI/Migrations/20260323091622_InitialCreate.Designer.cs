@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseCatalogAPI.Migrations
 {
     [DbContext(typeof(CourseDbContext))]
-    [Migration("20260312002637_InitialCreate")]
+    [Migration("20260323091622_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.4");
 
             modelBuilder.Entity("CourseCatalogAPI.Models.Course", b =>
                 {

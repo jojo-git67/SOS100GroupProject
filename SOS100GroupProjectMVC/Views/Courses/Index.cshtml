@@ -1,0 +1,37 @@
+@model List<SOS100GroupProjectMVC.Models.CourseViewModel>
+
+@{
+    ViewData["Title"] = "Kurskatalog";
+}
+
+<link rel="stylesheet" href="~/css/courses.css" asp-append-version="true"/>
+<script src="~/js/courses.js" asp-append-version="true"></script>
+
+<h1>Kurskatalog</h1>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="🔍 Sök kurs.." onkeyup="searchCourses()" />
+</div>
+
+<div id="courseGrid">
+    @foreach (var course in Model)
+    {
+        <div class="course-card">
+            <h2>@course.Title</h2>
+            <p>@course.Description</p>
+            <p><strong>Lärare @course.TeacherId</strong></p>
+            <p>Start @course.StartDate.ToString("yyyy-MM-dd")</p>
+            <p>Slut @course.EndDate.ToString("yyyy-MM-dd")</p>
+            <div class="card-buttons">
+                <a href="/Courses/Details/@course.CourseId" class="btn">Visa detaljer</a>
+                <a href="/Courses/Edit/@course.CourseId" class="btn admin-only">Redigera</a>
+                <a href="/Courses/Delete/@course.CourseId" class="btn admin-only">Ta bort</a>
+            </div>
+            
+        </div>
+    }
+</div>
+
+<div class="admin-only-container">
+    <a href="/Courses/Create" class="btn admin-only">Skapa kurs</a>
+</div>

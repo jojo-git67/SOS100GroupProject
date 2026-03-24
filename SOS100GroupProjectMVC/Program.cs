@@ -19,7 +19,7 @@ public class Program
                 builder.Configuration.GetConnectionString("DefaultConnection")));
 
         var app = builder.Build();
-        
+     
         // Apply database migration at startup
         using (var scope = app.Services.CreateScope())
         {
@@ -30,7 +30,6 @@ public class Program
         }
 
         // Configure the HTTP request pipeline.
-        //if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
