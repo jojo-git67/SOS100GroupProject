@@ -53,6 +53,7 @@ namespace KommunicationAPI.Controllers
             {
                 SenderId = dto.SenderId,
                 ReceiverId = dto.ReceiverId,
+                Title = dto.Title,
                 Content = dto.Content,
                 timestamp = DateTime.Now,
                 IsRead = false
