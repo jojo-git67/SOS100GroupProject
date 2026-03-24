@@ -32,7 +32,8 @@ namespace SOS100GroupProjectMVC.Migrations
                     UserName = table.Column<string>(type: "TEXT", nullable: false),
                     UserEmail = table.Column<string>(type: "TEXT", nullable: false),
                     FirstName = table.Column<string>(type: "TEXT", nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", nullable: false)
+                    LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    Role =  table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
