@@ -49,29 +49,7 @@ public class Program
                 dbContext.Users.Add(adminUser);
                 dbContext.SaveChanges();
             }
-            /*
-            if (!dbContext.Users.Any(u => u.UserName == "admin"))
-            {
-                //defaultPassword = "admin!";
-                var adminUser = new User
-                {
-                    UserName = "admin",
-                    UserEmail = "admin@example.com",
-                    FirstName = "Admin",
-                    LastName = "User",
-                    Role = "IT-admin",
-                    Credentials = new UserCredentials
-                    {
-                        UserName = "admin",
-                        Salt = "AdminSalt123",
-                        Password = "b9b298342c781ecbc6484a2f394f8f0a8e7c94617e40b01f2126fab957b321f6"
-                    }
-                };
-
-                dbContext.Users.Add(adminUser);
-                dbContext.SaveChanges();
-            }
-            */
+            
         }
 
         // Configure the HTTP request pipeline.
@@ -83,9 +61,9 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseRouting();
-        app.UseAuthorization();
         app.UseAuthentication();
-
+        app.UseAuthorization();
+        
         app.MapStaticAssets();
         app.MapControllerRoute(
                 name: "default",
