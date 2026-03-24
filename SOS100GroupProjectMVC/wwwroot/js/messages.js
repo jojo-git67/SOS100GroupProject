@@ -12,7 +12,7 @@ messages.forEach(msg => {
         messages.forEach(m => m.classList.remove("active"));
         this.classList.add("active");
         
-        let url = `http://localhost:5282/api/Kommunication/${this.id}/read`;
+        let url = `https://app-sos100-kommunication-api.azurewebsites.net/api/Kommunication/${this.id}/read`;
 
         try {
             let response = await fetch(url, { method: "PATCH" });
