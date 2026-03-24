@@ -23,7 +23,6 @@ C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\scopedcss\bundle\SOS100GroupProjectMVC.styles.css
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\scopedcss\projectbundle\SOS100GroupProjectMVC.bundle.scp.css
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\paflzrrap3-{0}-61n19gt1b8-61n19gt1b8.gz
-C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\mge2wbpaxg-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\k6t7kx1p36-{0}-igqv0h1dvt-igqv0h1dvt.gz
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\ih4f3w1g6d-{0}-igqv0h1dvt-igqv0h1dvt.gz
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\staticwebassets.build.json
@@ -50,9 +49,7 @@ C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Relational.Design.dll
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Sqlite.dll
-C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.Sqlite.Design.dll
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\net10.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\net10.0\Microsoft.VisualStudio.SolutionPersistence.dll
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\net10.0\Mono.TextTemplating.dll
@@ -158,3 +155,11 @@ C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\SOS100Gr.9C3892EA.Up2Date
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\egcd2jssyf-{0}-ava7llzg6c-ava7llzg6c.gz
 C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\fezkynqbzj-{0}-si1bfr2eza-si1bfr2eza.gz
+C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\bin\Debug\net10.0\Scalar.AspNetCore.dll
+C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\yhpssenmnl-{0}-5ipweew5fc-5ipweew5fc.gz
+C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\k65mtatj1e-{0}-itb9m9dfay-itb9m9dfay.gz
+C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\jxw1jfzvge-{0}-jlcflw2mii-jlcflw2mii.gz
+C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\m3bdtmwo9g-{0}-hwzgty222j-hwzgty222j.gz
+C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\gzry9vqqpp-{0}-8wzbaav94z-8wzbaav94z.gz
+C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\p6ys57m5m0-{0}-big3qwqf1k-big3qwqf1k.gz
+C:\Users\assia\RiderProjects\SOS100GroupProject\SOS100GroupProjectMVC\obj\Debug\net10.0\compressed\mge2wbpaxg-{0}-eu2v9s3vjs-eu2v9s3vjs.gz
