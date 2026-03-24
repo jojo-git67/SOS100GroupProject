@@ -18,6 +18,11 @@ public class Program
             options.UseSqlite(
                 builder.Configuration.GetConnectionString("DefaultConnection")));
 
+        // Registrera UserDbContext
+        builder.Services.AddDbContext<UserDbContext>(options =>
+            options.UseSqlite(
+                builder.Configuration.GetConnectionString("DefaultConnection")));
+
         var app = builder.Build();
         
         // Apply database migration at startup

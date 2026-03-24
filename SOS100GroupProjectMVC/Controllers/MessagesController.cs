@@ -38,7 +38,7 @@ public class MessagesController : Controller
         return View(messages);
     }
 
-    public IActionResult CreateMessage()
+    public async Task<IActionResult> CreateMessage()
     {
         if (!IsLoggedIn())
         {
@@ -47,7 +47,19 @@ public class MessagesController : Controller
 
         var users = _context.Users.ToList();
         ViewBag.Users = users;
+        
+        var response = await _httpClient.GetAsync(
+            $"http://localhost:5041/api/Registrering/user/{Request.Cookies["userId"]}");
 
+        if (!response.IsSuccessStatusCode)
+        {
+            return View(new List<Registration>());
+        }
+        
+        var registrations = await response.Content
+            .ReadFromJsonAsync<List<Registration>>();
+        
+        return View(registrations);
         return View();
     }
 
