@@ -1,6 +1,7 @@
 using BookingAPI.Data;
 using BookingAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 namespace BookingAPI;
 
@@ -11,7 +12,10 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
+
         builder.Services.AddOpenApi();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
         builder.Services.AddDbContext<BookingDbContext>(options =>
             options.UseSqlite("Data Source=booking.db"));
@@ -26,10 +30,11 @@ public class Program
             dbContext.Database.EnsureCreated();
         }
 
-        if (app.Environment.IsDevelopment())
-        {
-            app.MapOpenApi();
-        }
+        app.MapOpenApi();
+        app.MapScalarApiReference();
+
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
         app.UseHttpsRedirection();
 
