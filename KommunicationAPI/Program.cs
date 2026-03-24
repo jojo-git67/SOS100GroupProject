@@ -35,6 +35,14 @@ public class Program
         
         var app = builder.Build();
         
+        // Apply database migration at startup
+        using (var scope = app.Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<KommunicationDbContext>();
+            dbContext.Database.Migrate();
+
+        }
+        
         // Configure the HTTP request pipeline.
         //if (app.Environment.IsDevelopment())
         {

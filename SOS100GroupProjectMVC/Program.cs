@@ -14,11 +14,8 @@ public class Program
         builder.Services.AddControllersWithViews();
         builder.Services.AddHttpClient();
         
-        builder.Services.AddDbContext<UserDbContext>(options =>
-            options.UseSqlite(
-                builder.Configuration.GetConnectionString("DefaultConnection")));
 
-        // Registrera UserDbContext
+        // Register UserDbContext
         builder.Services.AddDbContext<UserDbContext>(options =>
             options.UseSqlite(
                 builder.Configuration.GetConnectionString("DefaultConnection")));
