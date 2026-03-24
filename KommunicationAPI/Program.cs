@@ -29,9 +29,8 @@ public class Program
 
         //AddDbContext-calls must be before builder.Build since generated files can be readOnly.
         builder.Services.AddDbContext<KommunicationDbContext>(options =>
-        {
-            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-        });
+            options.UseSqlite(
+                builder.Configuration.GetConnectionString("DefaultConnection")));
         
         var app = builder.Build();
         
@@ -40,7 +39,6 @@ public class Program
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<KommunicationDbContext>();
             dbContext.Database.Migrate();
-
         }
         
         // Configure the HTTP request pipeline.

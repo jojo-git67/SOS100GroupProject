@@ -22,9 +22,9 @@ public class MessagesController : Controller
         {
             return RedirectToAction("Index", "Login");
         }
-
+        
         var response = await _httpClient.GetAsync(
-            $"http://localhost:5282/api/Kommunication/user/{Request.Cookies["userId"]}");
+            $"https://app-sos100-kommunication-api.azurewebsites.net/api/Kommunication/user/{Request.Cookies["userId"]}");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -49,7 +49,7 @@ public class MessagesController : Controller
         ViewBag.Users = users;
         
         var response = await _httpClient.GetAsync(
-            $"http://localhost:5041/api/Registrering/user/{Request.Cookies["userId"]}");
+            $"https://app-sos100-kommunication-api.azurewebsites.net/api/Registrering/user/{Request.Cookies["userId"]}");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -86,7 +86,7 @@ public class MessagesController : Controller
         dto.SenderId = int.Parse(Request.Cookies["userId"]);
 
         var response = await _httpClient.PostAsJsonAsync(
-            "http://localhost:5282/api/Kommunication", dto);
+            "https://app-sos100-kommunication-api.azurewebsites.net/api/Kommunication", dto);
 
         if (!response.IsSuccessStatusCode)
         {
