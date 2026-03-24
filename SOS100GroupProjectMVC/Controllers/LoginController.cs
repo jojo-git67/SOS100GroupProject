@@ -25,7 +25,7 @@ public class LoginController : Controller
         {
             return RedirectToAction("Index", "Home");
         }
-        //AddDefaultUsers();
+        
         return View();
     }
 
