@@ -419,3 +419,5 @@ FodyWeavers.xsd
 
 #Rider
 .idea/
+# Ignore local databases
+*.db
