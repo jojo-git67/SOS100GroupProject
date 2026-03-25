@@ -1,4 +1,5 @@
 // Hämta cookie värde med namn
+
 function getCookie(name) {
     const cookies = document.cookie.split(';');
     for (let cookie of cookies) {

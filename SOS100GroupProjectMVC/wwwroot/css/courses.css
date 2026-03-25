@@ -44,7 +44,7 @@ h1 {
 }
 
 .card-buttons a {
-    display: inline-block !important;
+    display: inline-block; 
     flex-direction: unset !important;
     align-items: unset !important;
 }

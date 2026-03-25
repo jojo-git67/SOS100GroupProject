@@ -5,7 +5,7 @@
 }
 
 <link rel="stylesheet" href="~/css/courses.css" asp-append-version="true"/>
-<script src="~/js/courses.js" asp-append-version="true"></script>
+
 
 <h1>Kurskatalog</h1>
 
@@ -25,9 +25,10 @@
             <div class="card-buttons">
                 <a href="/Courses/Details/@course.CourseId" class="btn">Visa detaljer</a>
                 <a href="/Courses/Edit/@course.CourseId" class="btn admin-only">Redigera</a>
-                <a href="/Courses/Delete/@course.CourseId" class="btn admin-only">Ta bort</a>
+                <a href="/Courses/Delete/@course.CourseId" class="btn admin-only" onclick="return confirm('Är du säker på att du vill ta bort kursen?')">Ta bort</a>
+                
             </div>
-            
+             
         </div>
     }
 </div>
@@ -35,3 +36,5 @@
 <div class="admin-only-container">
     <a href="/Courses/Create" class="btn admin-only">Skapa kurs</a>
 </div>
+
+ <script src="~/js/courses.js" asp-append-version="true"></script>

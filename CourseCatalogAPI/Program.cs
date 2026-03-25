@@ -20,6 +20,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<CourseDbContext>();
+    db.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -29,4 +35,4 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowMVC");
 app.UseHttpsRedirection();
 app.MapControllers();
-app.Run(); 
+app.Run();  
