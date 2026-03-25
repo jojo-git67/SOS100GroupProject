@@ -3,12 +3,22 @@
 }
 body {
     margin: 0;
+    background-color: #FFFFFF;
+    color: #000000;
 }
+
 .content {
     margin-left: 200px;
+<<<<<<< Updated upstream
     margin-top: 70px;
     padding-top: 2rem;
+=======
+    padding: 2rem;
+    background-color: #FFFFFF;
+    min-height: 100vh;
+>>>>>>> Stashed changes
 }
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -22,36 +32,57 @@ nav {
     right: 0;
     z-index: 1000;
 }
+
 ul {
     display: flex;
     padding: 1em;
     margin: 0;
     list-style: none;
 }
+
 li {
     display: flex;
     flex-direction: column;
     margin: 0.5em;
 }
+<<<<<<< Updated upstream
 li, i {
     font-size: 1.5rem;
 }
+=======
+
+li, i {
+    font-size: 1.5rem;
+}
+
+>>>>>>> Stashed changes
 a {
     text-decoration: none;
     color: #000000;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: smooth;
 }
+
 a:hover {
     transform: scale(1.2);
+<<<<<<< Updated upstream
+=======
+    transition: 0.2s ease;
+>>>>>>> Stashed changes
 }
+
 #navigation-menu {
     display: flex;
 }
+<<<<<<< Updated upstream
 #sidebar-menu {
     width: fit-content;
+=======
+
+#sidebar-menu {
+    width: 200px;
+>>>>>>> Stashed changes
     height: 100%;
     background-color: #EAEFEF;
     position: fixed;
@@ -61,7 +92,185 @@ a:hover {
     border-right: 1px solid black;
     top: 70px;
 }
+<<<<<<< Updated upstream
 #sidebar-menu > ul {
     flex-direction: column;
     padding-top: 3rem;
 } 
+=======
+
+#sidebar-menu > ul {
+    flex-direction: column;
+}
+
+/* ===========================
+   Sida / content
+   =========================== */
+
+.page-container {
+    max-width: 1000px;
+}
+
+.page-container h1,
+.page-container h2,
+.page-container h3,
+.page-container p {
+    color: #000000;
+}
+
+/* ===========================
+   Knappar
+   =========================== */
+
+.btn {
+    background-color: #000000;
+    color: #FFFFFF;
+    border: 1px solid #000000;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    width: fit-content;
+}
+
+.btn:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+    transform: scale(1.05);
+    transition: 0.2s ease;
+}
+
+.btn:active {
+    background-color: #000000;
+    color: #FFFFFF;
+    transform: scale(0.98);
+}
+
+.btn-neka {
+    background-color: #ff1818;
+    color: #FFFFFF;
+    border: 1px solid #000000;
+}
+
+.btn-neka:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+/* ===========================
+   Tabell för schema
+   =========================== */
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: #FFFFFF;
+}
+
+.schedule-table th,
+.schedule-table td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid #000000;
+    font-size: 1rem;
+    vertical-align: middle;
+}
+
+.schedule-table th {
+    background-color: #EAEFEF;
+}
+
+.actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.actions a {
+    display: inline-block;
+    text-decoration: none;
+    color: #000000;
+}
+
+.actions a:hover {
+    transform: none;
+    text-decoration: underline;
+}
+
+/* ===========================
+   Form / search / cards
+   =========================== */
+
+.search-container {
+    margin-bottom: 1.5rem;
+}
+
+.search-container input {
+    width: 300px;
+    padding: 0.5rem;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.search-container input:focus {
+    outline: none;
+    border: 2px solid #000000;
+}
+
+.section {
+    margin-bottom: 2rem;
+    border-top: 1px solid #000000;
+    padding-top: 1rem;
+}
+
+.course-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    width: 90%;
+}
+
+.course-card p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.course-card-admin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    width: 90%;
+}
+
+.course-card-admin .card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.course-card-admin p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+#adminCoursesSectionTitle {
+    display: none;
+}
+>>>>>>> Stashed changes

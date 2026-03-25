@@ -1,11 +1,34 @@
+<<<<<<< Updated upstream
 using Microsoft.EntityFrameworkCore;
 using SOS100GroupProjectMVC.Data;
 using SOS100GroupProjectMVC.Models;
 
 namespace SOS100GroupProjectMVC;
+=======
+using SOS100GroupProjectMVC.Models;
+using SOS100GroupProjectMVC.Services;
+>>>>>>> Stashed changes
 
-public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<ServiceRegistrySettings>(
+    builder.Configuration.GetSection("ServiceRegistry"));
+
+builder.Services.AddHttpClient();
+
+builder.Services.AddScoped<KatalogApiService>();
+builder.Services.AddScoped<RegistreringApiService>();
+builder.Services.AddScoped<SchemaApiService>();
+builder.Services.AddScoped<KommunikationApiService>();
+builder.Services.AddScoped<RumsbokningApiService>();
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
 {
+<<<<<<< Updated upstream
     public static void Main(string[] args)
     { 
         var builder = WebApplication.CreateBuilder(args);
@@ -124,3 +147,21 @@ public class Program
     }
 }
 }
+=======
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Schedule}/{action=Index}/{id?}");
+
+app.Run();
+>>>>>>> Stashed changes

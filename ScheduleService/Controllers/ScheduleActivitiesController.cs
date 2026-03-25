@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ScheduleService.Data;
 using ScheduleService.Models;
 
 namespace ScheduleService.Controllers
@@ -7,60 +9,53 @@ namespace ScheduleService.Controllers
     [ApiController]
     public class ScheduleActivitiesController : ControllerBase
     {
-        private static readonly List<ScheduleActivity> Activities = new();
+        private readonly ScheduleDbContext _context;
 
-        private bool HasAccessToManageSchedule()
+        public ScheduleActivitiesController(ScheduleDbContext context)
         {
-            if (!Request.Headers.TryGetValue("Role", out var role))
-            {
-                return false;
-            }
-
-            return role == "CourseAdmin" || role == "IT-admin";
+            _context = context;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ScheduleActivity>> GetAll()
+        public async Task<ActionResult<IEnumerable<ScheduleActivity>>> GetAll()
         {
-            return Ok(Activities);
+            return Ok(await _context.ScheduleActivities.ToListAsync());
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<ScheduleActivity> GetById(int id)
+        [HttpGet("course/{courseId}")]
+        public async Task<ActionResult<IEnumerable<ScheduleActivity>>> GetByCourse(int courseId)
         {
-            var activity = Activities.FirstOrDefault(a => a.ActivityId == id);
+            var activities = await _context.ScheduleActivities
+                .Where(a => a.CourseId == courseId)
+                .ToListAsync();
 
-            if (activity == null)
-            {
-                return NotFound();
-            }
+            return Ok(activities);
+        }
 
-            return Ok(activity);
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<ScheduleActivity>>> GetByUser(int userId)
+        {
+            var activities = await _context.ScheduleActivities
+                .Where(a => a.UserId == userId)
+                .ToListAsync();
+
+            return Ok(activities);
         }
 
         [HttpPost]
-        public ActionResult<ScheduleActivity> Create(ScheduleActivity activity)
+        public async Task<ActionResult<ScheduleActivity>> Create(ScheduleActivity activity)
         {
-            if (!HasAccessToManageSchedule())
-            {
-                return StatusCode(403, "Du har inte behörighet.");
-            }
+            _context.ScheduleActivities.Add(activity);
+            await _context.SaveChangesAsync();
 
-            activity.ActivityId = Activities.Count > 0 ? Activities.Max(a => a.ActivityId) + 1 : 1;
-            Activities.Add(activity);
-
-            return CreatedAtAction(nameof(GetById), new { id = activity.ActivityId }, activity);
+            return CreatedAtAction(nameof(GetAll), new { id = activity.ActivityId }, activity);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, ScheduleActivity updatedActivity)
+        [HttpPut("{activityId}")]
+        public async Task<IActionResult> Update(int activityId, ScheduleActivity updatedActivity)
         {
-            if (!HasAccessToManageSchedule())
-            {
-                return StatusCode(403, "Du har inte behörighet.");
-            }
-
-            var existingActivity = Activities.FirstOrDefault(a => a.ActivityId == id);
+            var existingActivity = await _context.ScheduleActivities
+                .FirstOrDefaultAsync(a => a.ActivityId == activityId);
 
             if (existingActivity == null)
             {
@@ -68,31 +63,32 @@ namespace ScheduleService.Controllers
             }
 
             existingActivity.CourseId = updatedActivity.CourseId;
+            existingActivity.UserId = updatedActivity.UserId;
             existingActivity.Title = updatedActivity.Title;
             existingActivity.Date = updatedActivity.Date;
             existingActivity.StartTime = updatedActivity.StartTime;
             existingActivity.EndTime = updatedActivity.EndTime;
-            existingActivity.RoomName = updatedActivity.RoomName;
+            existingActivity.RoomId = updatedActivity.RoomId;
+
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("{activityId}")]
+        public async Task<IActionResult> Delete(int activityId)
         {
-            if (!HasAccessToManageSchedule())
-            {
-                return StatusCode(403, "Du har inte behörighet.");
-            }
-
-            var activity = Activities.FirstOrDefault(a => a.ActivityId == id);
+            var activity = await _context.ScheduleActivities
+                .FirstOrDefaultAsync(a => a.ActivityId == activityId);
 
             if (activity == null)
             {
                 return NotFound();
             }
 
-            Activities.Remove(activity);
+            _context.ScheduleActivities.Remove(activity);
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
     }
