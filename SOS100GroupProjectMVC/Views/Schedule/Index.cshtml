@@ -1,0 +1,64 @@
+@model List<SOS100GroupProjectMVC.Models.ScheduleActivity>
+
+@{
+    ViewData["Title"] = "Schema";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.Error != null)
+{
+    <p style="color:red;">Fel: @ViewBag.Error</p>
+}
+
+<section>
+    <h1>Schema</h1>
+    <p>Här kan du se kommande aktiviteter i schemat.</p>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Skapa ny aktivitet</a>
+    </p>
+
+    <div class="schedule-card">
+        <h2>Veckoschema</h2>
+
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Aktivitet</th>
+                    <th>Datum</th>
+                    <th>Start</th>
+                    <th>Slut</th>
+                    <th>Rum</th>
+                    <th>Åtgärder</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Count > 0)
+                {
+                    @foreach (var activity in Model)
+                    {
+                        <tr>
+                            <td>@activity.ActivityId</td>
+                            <td>@activity.Title</td>
+                            <td>@activity.Date</td>
+                            <td>@activity.StartTime.ToString(@"hh\:mm")</td>
+                            <td>@activity.EndTime.ToString(@"hh\:mm")</td>
+                            <td>@activity.RoomId</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@activity.ActivityId">Redigera</a> |
+                                <a asp-action="Delete" asp-route-id="@activity.ActivityId">Ta bort</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7">Inga aktiviteter hittades.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

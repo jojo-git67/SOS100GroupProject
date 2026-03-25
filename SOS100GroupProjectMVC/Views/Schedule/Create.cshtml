@@ -1,0 +1,41 @@
+@model SOS100GroupProjectMVC.Models.ScheduleActivity
+
+@{
+    ViewData["Title"] = "Create Activity";
+}
+
+<h1>Create Activity</h1>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label asp-for="CourseId"></label>
+        <input asp-for="CourseId" />
+    </div>
+    <div>
+        <label asp-for="UserId"></label>
+        <input asp-for="UserId" />
+    </div>
+    <div>
+        <label asp-for="Title"></label>
+        <input asp-for="Title" />
+    </div>
+    <div>
+        <label asp-for="Date"></label>
+        <input asp-for="Date" placeholder="2026-03-20" />
+    </div>
+    <div>
+        <label asp-for="StartTime"></label>
+        <input asp-for="StartTime" placeholder="08:15" />
+    </div>
+    <div>
+        <label asp-for="EndTime"></label>
+        <input asp-for="EndTime" placeholder="10:00" />
+    </div>
+    <div>
+        <label asp-for="RoomId"></label>
+        <input asp-for="RoomId" />
+    </div>
+
+    <button type="submit">Save</button>
+    <a asp-action="Index">Back</a>
+</form>

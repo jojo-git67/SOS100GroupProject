@@ -1,0 +1,24 @@
+@model SOS100GroupProjectMVC.Models.ScheduleActivity
+
+@{
+    ViewData["Title"] = "Delete Activity";
+}
+
+<h1>Delete Activity</h1>
+
+<p>Are you sure you want to delete this activity?</p>
+
+<div>
+    <p><strong>ID:</strong> @Model.ActivityId</p>
+    <p><strong>Title:</strong> @Model.Title</p>
+    <p><strong>Date:</strong> @Model.Date</p>
+    <p><strong>Start:</strong> @Model.StartTime</p>
+    <p><strong>End:</strong> @Model.EndTime</p>
+    <p><strong>Room:</strong> @Model.RoomId</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="ActivityId" />
+    <button type="submit">Yes, Delete</button>
+    <a asp-action="Index">Cancel</a>
+</form>
