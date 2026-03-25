@@ -1,23 +1,32 @@
-using CourseCatalogAPI.Models;
 using CourseCatalogAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddControllers(); 
+builder.Services.AddControllers();
+builder.Services.AddOpenApi();
 builder.Services.AddDbContext<CourseDbContext>(options =>
-    options.UseSqlite("Data Source=courses.db"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowMVC",
+        policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
+app.UseCors("AllowMVC");
 app.UseHttpsRedirection();
-app.MapControllers(); 
-app.Run();
+app.MapControllers();
+app.Run(); 
