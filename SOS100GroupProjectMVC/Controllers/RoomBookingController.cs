@@ -8,6 +8,11 @@ public class RoomBookingController : Controller
 {
     public async Task<IActionResult> Index()
     {
+        if (!TryGetLoggedInUserId(out _))
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
         var model = await LoadPageModelAsync();
         return View(model);
     }
@@ -15,6 +20,11 @@ public class RoomBookingController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
+        if (!TryGetLoggedInUserId(out _))
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
         var handler = new HttpClientHandler
         {
             ServerCertificateCustomValidationCallback = (_, _, _, _) => true
@@ -61,6 +71,18 @@ public class RoomBookingController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateBooking(RoomBookingDto newBooking)
     {
+        if (!TryGetLoggedInUserId(out var userId))
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
+        newBooking.BookedByUserId = userId;
+
+        if (string.IsNullOrWhiteSpace(newBooking.Status))
+        {
+            newBooking.Status = "Created";
+        }
+
         var handler = new HttpClientHandler
         {
             ServerCertificateCustomValidationCallback = (_, _, _, _) => true
@@ -88,6 +110,18 @@ public class RoomBookingController : Controller
     [HttpPost]
     public async Task<IActionResult> UpdateBooking(RoomBookingDto booking)
     {
+        if (!TryGetLoggedInUserId(out var userId))
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
+        booking.BookedByUserId = userId;
+
+        if (string.IsNullOrWhiteSpace(booking.Status))
+        {
+            booking.Status = "Created";
+        }
+
         var handler = new HttpClientHandler
         {
             ServerCertificateCustomValidationCallback = (_, _, _, _) => true
@@ -135,6 +169,11 @@ public class RoomBookingController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteBooking(int id)
     {
+        if (!TryGetLoggedInUserId(out _))
+        {
+            return RedirectToAction("Index", "Login");
+        }
+
         var handler = new HttpClientHandler
         {
             ServerCertificateCustomValidationCallback = (_, _, _, _) => true
@@ -177,7 +216,9 @@ public class RoomBookingController : Controller
         {
             var rooms = await roomsResponse.Content.ReadFromJsonAsync<List<RoomDto>>();
             if (rooms != null)
+            {
                 model.Rooms = rooms;
+            }
         }
 
         if (bookingsResponse.IsSuccessStatusCode)
@@ -185,6 +226,13 @@ public class RoomBookingController : Controller
             var bookings = await bookingsResponse.Content.ReadFromJsonAsync<List<RoomBookingDto>>();
             if (bookings != null)
             {
+                if (TryGetLoggedInUserId(out var userId))
+                {
+                    bookings = bookings
+                        .Where(b => b.BookedByUserId == userId)
+                        .ToList();
+                }
+
                 model.Bookings = bookings
                     .OrderByDescending(b => b.Date)
                     .ThenByDescending(b => b.StartTime)
@@ -201,5 +249,19 @@ public class RoomBookingController : Controller
         };
 
         return model;
+    }
+
+    private bool TryGetLoggedInUserId(out int userId)
+    {
+        userId = 0;
+
+        var userIdCookie = Request.Cookies["userId"];
+
+        if (string.IsNullOrWhiteSpace(userIdCookie))
+        {
+            return false;
+        }
+
+        return int.TryParse(userIdCookie, out userId);
     }
 }
