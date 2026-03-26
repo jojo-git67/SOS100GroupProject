@@ -1,4 +1,6 @@
 // Hämta cookie värde med namn
+
+
 function getCookie(name) {
     const cookies = document.cookie.split(';');
     for (let cookie of cookies) {
@@ -8,8 +10,10 @@ function getCookie(name) {
     return null;
 }
 
+
 // Läs roll från cookie, standard är student
 const role = getCookie("role") || "student";
+
 
 // Visa/göm admin-knappar baserat på roll
 function applyRoleAccess() {
@@ -23,6 +27,7 @@ function applyRoleAccess() {
     });
 }
 
+
 // Sökfunktion
 function searchCourses() {
     const input = document.getElementById("searchInput").value.toLowerCase();
@@ -32,5 +37,6 @@ function searchCourses() {
         card.style.display = title.includes(input) ? "block" : "none";
     });
 }
+
 
 applyRoleAccess();

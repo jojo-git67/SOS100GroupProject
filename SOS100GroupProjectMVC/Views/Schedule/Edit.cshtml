@@ -1,0 +1,61 @@
+@model SOS100GroupProjectMVC.Models.ScheduleActivity
+@{
+    ViewData["Title"] = "Redigera aktivitet";
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/schedule.css" />
+
+<section class="schedule-page">
+    <h1 class="page-title">Redigera aktivitet</h1>
+
+    <form action="/Schedule/Edit/@Model.ActivityId" method="post" class="form">
+        <input type="hidden" name="ActivityId" value="@Model.ActivityId" />
+
+        <div class="form-group">
+            <label>Aktivitets-ID</label>
+            <input type="number" name="ActivityId" value="@Model.ActivityId" readonly />
+        </div>
+
+        <div class="form-group">
+            <label>Kurs-ID</label>
+            <input type="number" name="CourseId" value="@Model.CourseId" />
+        </div>
+
+        <div class="form-group">
+            <label>Användar-ID</label>
+            <input type="number" name="UserId" value="@Model.UserId" />
+        </div>
+
+        <div class="form-group">
+            <label>Titel</label>
+            <input type="text" name="Title" value="@Model.Title" />
+        </div>
+
+        <div class="form-group">
+            <label>Datum</label>
+            <input type="date" name="Date" value="@Model.Date.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <div class="form-group">
+            <label>Starttid</label>
+            <input type="time" name="StartTime" value="@Model.StartTime.ToString(@"hh\:mm")" />
+        </div>
+
+        <div class="form-group">
+            <label>Sluttid</label>
+            <input type="time" name="EndTime" value="@Model.EndTime.ToString(@"hh\:mm")" />
+        </div>
+
+        <div class="form-group">
+            <label>Rum-ID</label>
+            <input type="number" name="RoomId" value="@Model.RoomId" />
+        </div>
+
+        <div class="form-actions">
+            <a href="/Schedule" class="btn secondary">Avbryt</a>
+            <button type="submit" class="btn primary">Spara ändringar</button>
+        </div>
+    </form>
+</section>
+
+<script src="~/js/schedule.js"></script>

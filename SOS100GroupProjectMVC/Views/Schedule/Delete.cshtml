@@ -1,0 +1,49 @@
+@model SOS100GroupProjectMVC.Models.ScheduleActivity
+@{
+    ViewData["Title"] = "Ta bort aktivitet";
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/schedule.css" />
+
+<section class="schedule-page">
+    <h1 class="page-title">Ta bort aktivitet</h1>
+    <p class="page-description">Är du säker på att du vill ta bort denna aktivitet?</p>
+
+    <div class="form">
+        <div class="form-group">
+            <label>ID</label>
+            <input type="text" value="@Model.ActivityId" readonly />
+        </div>
+
+        <div class="form-group">
+            <label>Titel</label>
+            <input type="text" value="@Model.Title" readonly />
+        </div>
+
+        <div class="form-group">
+            <label>Datum</label>
+            <input type="text" value="@Model.Date.ToString("yyyy-MM-dd")" readonly />
+        </div>
+
+        <div class="form-group">
+            <label>Start</label>
+            <input type="text" value="@Model.StartTime.ToString(@"hh\:mm")" readonly />
+        </div>
+
+        <div class="form-group">
+            <label>Slut</label>
+            <input type="text" value="@Model.EndTime.ToString(@"hh\:mm")" readonly />
+        </div>
+
+        <div class="form-group">
+            <label>Rum</label>
+            <input type="text" value="@Model.RoomId" readonly />
+        </div>
+    </div>
+
+    <form action="/Schedule/Delete/@Model.ActivityId" method="post" class="form-actions">
+        <input type="hidden" name="ActivityId" value="@Model.ActivityId" />
+        <button type="submit" class="btn primary">Ja, ta bort</button>
+        <a href="/Schedule" class="btn secondary">Avbryt</a>
+    </form>
+</section>

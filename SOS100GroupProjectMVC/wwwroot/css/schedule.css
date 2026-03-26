@@ -1,0 +1,141 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #000;
+}
+
+/* Page */
+.schedule-page {
+    max-width: 1100px;
+    margin: 2rem auto;
+}
+
+.page-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-title {
+    margin-top: 2rem;
+}
+
+/* Alerts */
+.alert {
+    padding: 0.5rem;
+    font-weight: bold;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.6rem 1rem;
+    border: 1px solid #000;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.primary {
+    background: #000;
+    color: #fff;
+}
+
+.primary:hover {
+    background: #fff;
+    color: #000;
+}
+
+.secondary {
+    background: #fff;
+    color: #000;
+}
+
+.secondary:hover {
+    background: #000;
+    color: #fff;
+}
+
+/* Table */
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.schedule-table th,
+.schedule-table td {
+    border: 1px solid #000;
+    padding: 0.7rem;
+}
+
+.schedule-table th {
+    background: #000;
+    color: #fff;
+}
+
+.schedule-table tr:nth-child(even) {
+    background: #f5f5f5;
+}
+
+/* Links */
+.link {
+    color: black;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.danger {
+    color: red;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 2rem;
+    border: 2px solid #000;
+    border-radius: 8px;
+    min-width: 350px;
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 0.75rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #000;
+}
+
+.form-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.empty {
+    text-align: center;
+}

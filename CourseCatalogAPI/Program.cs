@@ -7,9 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<CourseDbContext>(options =>
-    options.UseSqlite("Data Source=courses.db"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Lägg till CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowMVC",
@@ -21,6 +20,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<CourseDbContext>();
+    db.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -30,4 +35,4 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowMVC");
 app.UseHttpsRedirection();
 app.MapControllers();
-app.Run();
+app.Run();  

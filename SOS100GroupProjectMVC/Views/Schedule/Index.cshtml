@@ -1,0 +1,135 @@
+@model List<SOS100GroupProjectMVC.Models.ScheduleActivity>
+@{
+    ViewData["Title"] = "Schema";
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/schedule.css" />
+
+<section class="schedule-page">
+    <h1 class="page-title">Schema</h1>
+    <p class="page-description">Här kan du se kommande aktiviteter i schemat.</p>
+
+    @if (ViewBag.Success != null)
+    {
+        <p class="alert success">✅ @ViewBag.Success</p>
+    }
+    @if (ViewBag.Error != null)
+    {
+        <p class="alert error">❌ Fel: @ViewBag.Error</p>
+    }
+
+    <div class="top-actions">
+        <button type="button" class="btn primary" onclick="öppnaModal()">Skapa ny aktivitet</button>
+    </div>
+
+    <h2 class="section-title">Veckoschema</h2>
+
+    <table class="schedule-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Aktivitet</th>
+                <th>Datum</th>
+                <th>Start</th>
+                <th>Slut</th>
+                <th>Rum</th>
+                <th>Åtgärder</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                @foreach (var activity in Model)
+                {
+                    <tr>
+                        <td>@activity.ActivityId</td>
+                        <td>@activity.Title</td>
+                        <td>@activity.Date.ToString("yyyy-MM-dd")</td>
+                        <td>@activity.StartTime.ToString(@"hh\:mm")</td>
+                        <td>@activity.EndTime.ToString(@"hh\:mm")</td>
+                        <td>@activity.RoomId</td>
+                        <td>
+                            <div class="actions">
+                                <a class="link" href="/Schedule/Edit/@activity.ActivityId">Redigera</a>
+                                <span>|</span>
+                                <a class="link danger" href="/Schedule/Delete/@activity.ActivityId">Ta bort</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="empty">Inga aktiviteter hittades.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+
+<!-- MODAL -->
+<div id="skapaModal" class="modal">
+    <div class="modal-content">
+
+        <h2>Skapa aktivitet</h2>
+
+        <form action="/Schedule/Create" method="post" class="form">
+
+            <div class="form-group">
+                <label>Kurs-ID</label>
+                <input type="number" name="CourseId" required />
+            </div>
+
+            <div class="form-group">
+                <label>Användar-ID</label>
+                <input type="number" name="UserId" required />
+            </div>
+
+            <div class="form-group">
+                <label>Titel</label>
+                <input type="text" name="Title" required />
+            </div>
+
+            <div class="form-group">
+                <label>Datum</label>
+                <input type="date" name="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+            </div>
+
+            <div class="form-group">
+                <label>Starttid</label>
+                <input type="time" name="StartTime" value="08:15" required />
+            </div>
+
+            <div class="form-group">
+                <label>Sluttid</label>
+                <input type="time" name="EndTime" value="10:00" required />
+            </div>
+
+            <div class="form-group">
+                <label>Rum-ID</label>
+                <input type="number" name="RoomId" required />
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn primary">Spara</button>
+                <button type="button" class="btn secondary" onclick="stängModal()">Tillbaka</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    function öppnaModal() {
+        document.getElementById('skapaModal').classList.add('active');
+    }
+
+    function stängModal() {
+        document.getElementById('skapaModal').classList.remove('active');
+    }
+
+    document.getElementById('skapaModal').addEventListener('click', function (e) {
+        if (e.target === this) stängModal();
+    });
+</script>

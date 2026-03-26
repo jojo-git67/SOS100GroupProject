@@ -1,0 +1,107 @@
+@model SOS100GroupProjectMVC.Models.RoomBookingPageViewModel
+
+@{
+    ViewData["Title"] = "Rumsbokning";
+}
+
+<link rel="stylesheet" href="~/css/roombooking.css" />
+
+<div id="title-menu">
+    <div>
+        <h1>Rumsbokning</h1>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="message-box success-message">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="message-box error-message">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div id="room-booking-page">
+
+    <section class="panel">
+        <h2>Boka rum</h2>
+
+        <form asp-action="CreateBooking" method="post" class="booking-form">
+            <div class="form-row">
+                <label asp-for="NewBooking.RoomId">Rum</label>
+                <select asp-for="NewBooking.RoomId" name="RoomId" required>
+                    <option value="">Välj rum</option>
+                    @foreach (var room in Model.Rooms)
+                    {
+                        <option value="@room.RoomId">@room.RoomName (@room.Capacity platser)</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label asp-for="NewBooking.Date">Datum</label>
+                <input asp-for="NewBooking.Date" name="Date" type="date" required />
+            </div>
+
+            <div class="form-row">
+                <label asp-for="NewBooking.StartTime">Starttid</label>
+                <input asp-for="NewBooking.StartTime" name="StartTime" type="time" step="1" required />
+            </div>
+
+            <div class="form-row">
+                <label asp-for="NewBooking.EndTime">Sluttid</label>
+                <input asp-for="NewBooking.EndTime" name="EndTime" type="time" step="1" required />
+            </div>
+
+            <input asp-for="NewBooking.ActivityId" name="ActivityId" type="hidden" />
+            <input asp-for="NewBooking.BookedByUserId" name="BookedByUserId" type="hidden" />
+            <input asp-for="NewBooking.Status" name="Status" type="hidden" />
+
+            <button type="submit" class="btn">Boka</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>Rum</h2>
+        <div class="card-list">
+            @foreach (var room in Model.Rooms)
+            {
+                <div class="info-card">
+                    <h3>@room.RoomName</h3>
+                    <p><strong>Kapacitet:</strong> @room.Capacity personer</p>
+                </div>
+            }
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Dina bokningar</h2>
+        <div class="card-list">
+            @foreach (var booking in Model.Bookings)
+            {
+                var room = Model.Rooms.FirstOrDefault(r => r.RoomId == booking.RoomId);
+
+                <div class="info-card">
+                    <h3>@(room != null ? room.RoomName : $"Rum {booking.RoomId}")</h3>
+                    <p><strong>Datum:</strong> @booking.Date.ToShortDateString()</p>
+                    <p><strong>Tid:</strong> @booking.StartTime.ToString(@"hh\:mm") - @booking.EndTime.ToString(@"hh\:mm")</p>
+
+                    <div class="card-buttons">
+                        <a asp-action="Edit" asp-route-id="@booking.BookingId" class="btn">Ändra</a>
+
+                        <form asp-action="DeleteBooking" method="post">
+                            <input type="hidden" name="id" value="@booking.BookingId" />
+                            <button type="submit" class="btn btn-neka">Avboka</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+</div>
