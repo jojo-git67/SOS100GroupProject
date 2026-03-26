@@ -1,24 +1,22 @@
 @model SOS100GroupProjectMVC.Models.ScheduleActivity
-
 @{
-    ViewData["Title"] = "Delete Activity";
+    ViewData["Title"] = "Ta bort aktivitet";
+    Layout = "_Layout";
 }
-
-<h1>Delete Activity</h1>
-
-<p>Are you sure you want to delete this activity?</p>
-
-<div>
-    <p><strong>ID:</strong> @Model.ActivityId</p>
-    <p><strong>Title:</strong> @Model.Title</p>
-    <p><strong>Date:</strong> @Model.Date</p>
-    <p><strong>Start:</strong> @Model.StartTime</p>
-    <p><strong>End:</strong> @Model.EndTime</p>
-    <p><strong>Room:</strong> @Model.RoomId</p>
-</div>
-
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="ActivityId" />
-    <button type="submit">Yes, Delete</button>
-    <a asp-action="Index">Cancel</a>
-</form>
+<section class="schedule-page">
+    <h1>Ta bort aktivitet</h1>
+    <p>Är du säker på att du vill ta bort denna aktivitet?</p>
+    <div>
+        <p><strong>ID:</strong> @Model.ActivityId</p>
+        <p><strong>Titel:</strong> @Model.Title</p>
+        <p><strong>Datum:</strong> @Model.Date</p>
+        <p><strong>Start:</strong> @Model.StartTime</p>
+        <p><strong>Slut:</strong> @Model.EndTime</p>
+        <p><strong>Rum:</strong> @Model.RoomId</p>
+    </div>
+    <form action="/Schedule/Delete/@Model.ActivityId" method="post">
+        <input type="hidden" name="ActivityId" value="@Model.ActivityId" />
+        <button type="submit" class="btn">Ja, ta bort</button>
+<a href="/Schedule">Avbryt</a>
+    </form>
+</section>

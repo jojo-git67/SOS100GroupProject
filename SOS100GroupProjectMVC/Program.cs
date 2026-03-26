@@ -43,7 +43,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=Schedule}/{action=Index}/{id?}");
 
 app.Run();
 
@@ -61,8 +61,22 @@ static void AddDefaultUsers(UserDbContext dbContext)
     {
         if (!dbContext.Users.Any(x => x.UserName == u.UserName))
         {
-            dbContext.UserCredentials.Add(new UserCredentials { UserName = u.UserName, Salt = u.Salt, Password = u.Password });
-            dbContext.Users.Add(new User { UserName = u.UserName, UserEmail = u.Email, FirstName = u.FirstName, LastName = u.LastName, Role = u.Role });
+            dbContext.UserCredentials.Add(new UserCredentials
+            {
+                UserName = u.UserName,
+                Salt = u.Salt,
+                Password = u.Password
+            });
+
+            dbContext.Users.Add(new User
+            {
+                UserName = u.UserName,
+                UserEmail = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Role = u.Role
+            });
+
             dbContext.SaveChanges();
         }
     }

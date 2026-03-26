@@ -1,25 +1,23 @@
-@model SOS100GroupProjectMVC.Models.CourseViewModel
+@model SOS100GroupProjectMVC.Models.ScheduleActivity
 
 @{
-    ViewData["Title"] = "Ta bort kurs";
+    ViewData["Title"] = "Ta bort aktivitet";
 }
 
-<link rel="stylesheet" href="~/css/courses.css" asp-append-version="true"/>
+<h1>Ta bort aktivitet</h1>
 
-<h1>Ta bort kurs</h1>
+<p>Är du säker på att du vill ta bort denna aktivitet?</p>
 
-<div class="form-container">
-    <p>Är du säker på att du vill ta bort kursen:</p>
-    <h2>@Model.Title</h2>
-    <p>@Model.Description</p>
-    <p><strong>Lärare @Model.TeacherId</strong></p>
-    <p>Start: @Model.StartDate.ToString("yyyy-MM-dd")</p>
-    <p>Slut: @Model.EndDate.ToString("yyyy-MM-dd")</p>
-
-    <form method="post" action="/Courses/Delete/@Model.CourseId">
-        <div class="form-buttons">
-            <button type="submit" class="btn">Ja, ta bort</button>
-            <a href="/Courses" class="btn">Avbryt</a>
-        </div>
-    </form>
+<div>
+    <p><strong>Aktivitet:</strong> @Model.Title</p>
+    <p><strong>Datum:</strong> @Model.Date.ToString("yyyy-MM-dd")</p>
+    <p><strong>Starttid:</strong> @Model.StartTime.ToString(@"hh\:mm")</p>
+    <p><strong>Sluttid:</strong> @Model.EndTime.ToString(@"hh\:mm")</p>
+    <p><strong>Rum:</strong> @Model.RoomId</p>
 </div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="ActivityId" />
+    <button type="submit">Ja, ta bort</button>
+    <a asp-action="Index">Avbryt</a>
+</form>

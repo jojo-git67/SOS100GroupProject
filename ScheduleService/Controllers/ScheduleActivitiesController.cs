@@ -5,8 +5,8 @@ using ScheduleService.Models;
 
 namespace ScheduleService.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ScheduleActivitiesController : ControllerBase
     {
         private readonly ScheduleDbContext _context;
@@ -20,6 +20,20 @@ namespace ScheduleService.Controllers
         public async Task<ActionResult<IEnumerable<ScheduleActivity>>> GetAll()
         {
             return Ok(await _context.ScheduleActivities.ToListAsync());
+        }
+
+        [HttpGet("{activityId}")]
+        public async Task<ActionResult<ScheduleActivity>> GetById(int activityId)
+        {
+            var activity = await _context.ScheduleActivities
+                .FirstOrDefaultAsync(a => a.ActivityId == activityId);
+
+            if (activity == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(activity);
         }
 
         [HttpGet("course/{courseId}")]
@@ -48,7 +62,7 @@ namespace ScheduleService.Controllers
             _context.ScheduleActivities.Add(activity);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAll), new { id = activity.ActivityId }, activity);
+            return CreatedAtAction(nameof(GetById), new { activityId = activity.ActivityId }, activity);
         }
 
         [HttpPut("{activityId}")]

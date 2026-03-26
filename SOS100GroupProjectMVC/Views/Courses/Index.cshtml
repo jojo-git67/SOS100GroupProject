@@ -1,37 +1,42 @@
-@model List<SOS100GroupProjectMVC.Models.CourseViewModel>
-
 @{
-    ViewData["Title"] = "Kurskatalog";
+    ViewData["Title"] = "UniFlow";
 }
-
-<link rel="stylesheet" href="~/css/courses.css" asp-append-version="true"/>
-<script src="~/js/courses.js" asp-append-version="true"></script>
-
-<h1>Kurskatalog</h1>
-
-<div class="search-container">
-    <input type="text" id="searchInput" placeholder="🔍 Sök kurs.." onkeyup="searchCourses()" />
+<div class="home-container">
+    <div class="home-header">
+        <h1>UniFlow</h1>
+        <h3 class="welcome-text">Välkommen, <span id="userName"></span>!</h3>
+    </div>
+    <div class="home-cards">
+        <a href="#" class="home-card">
+            <i class="fa fa-book"></i>
+            <h3>Kurskatalog</h3>
+            <p>Sök och hitta tillgängliga kurser</p>
+        </a>
+        <a href="/Registrering" class="home-card">
+            <i class="fa fa-plus-square"></i>
+            <h3>Registrering</h3>
+            <p>Registrera dig på kurser och hantera dina ansökningar</p>
+        </a>
+        <a href="/Schedule" class="home-card">
+            <i class="fa fa-calendar"></i>
+            <h3>Schema</h3>
+            <p>Se ditt personliga schema</p>
+        </a>
+        <a href="#" class="home-card">
+            <i class="fa fa-envelope"></i>
+            <h3>Meddelanden</h3>
+            <p>Skicka och ta emot meddelanden</p>
+        </a>
+        <a href="#" class="home-card">
+            <i class="fa fa-calendar-plus-o"></i>
+            <h3>Rumsbokning</h3>
+            <p>Boka rum för möten och studier</p>
+        </a>
+    </div>
+    <div class="home-about">
+        <h2>Om UniFlow</h2>
+        <p>UniFlow är ett universitetsadministrationssystem som samlar alla viktiga funktioner på ett ställe. 
+            Systemet är byggt med en serviceorienterad arkitektur (SOA) där varje tjänst hanterar sitt eget ansvarsområde.</p>
+    </div>
 </div>
-
-<div id="courseGrid">
-    @foreach (var course in Model)
-    {
-        <div class="course-card">
-            <h2>@course.Title</h2>
-            <p>@course.Description</p>
-            <p><strong>Lärare @course.TeacherId</strong></p>
-            <p>Start @course.StartDate.ToString("yyyy-MM-dd")</p>
-            <p>Slut @course.EndDate.ToString("yyyy-MM-dd")</p>
-            <div class="card-buttons">
-                <a href="/Courses/Details/@course.CourseId" class="btn">Visa detaljer</a>
-                <a href="/Courses/Edit/@course.CourseId" class="btn admin-only">Redigera</a>
-                <a href="/Courses/Delete/@course.CourseId" class="btn admin-only">Ta bort</a>
-            </div>
-            
-        </div>
-    }
-</div>
-
-<div class="admin-only-container">
-    <a href="/Courses/Create" class="btn admin-only">Skapa kurs</a>
-</div>
+<script src="~/js/site.js"></script>

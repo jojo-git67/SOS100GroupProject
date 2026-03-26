@@ -200,3 +200,22 @@ a:hover {
 #adminCoursesSectionTitle {
     display: none;
 }
+.actions a, .btn {
+    display: inline-block;
+    flex-direction: unset;
+    align-items: unset;
+}
+
+table a {
+    display: inline;
+    flex-direction: unset;
+}
+section a, table a, form a {
+    display: inline !important;
+    flex-direction: unset !important;
+    align-items: unset !important;
+}
+.btn-tillbaka {
+    display: inline-block !important;
+    margin-top: 1rem;
+}

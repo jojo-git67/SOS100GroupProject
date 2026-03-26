@@ -46,3 +46,84 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+.schedule-page {
+    padding: 2rem;
+    background-color: #FFFFFF;
+}
+
+.schedule-page h1 {
+    margin-bottom: 1rem;
+}
+
+.schedule-page p {
+    margin-bottom: 1rem;
+}
+
+.error-text {
+    color: red;
+    margin-bottom: 1rem;
+}
+
+.schedule-page h2 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFFFFF;
+}
+
+.schedule-table thead {
+    background-color: #EAEFEF;
+}
+
+.schedule-table th,
+.schedule-table td {
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid #000000;
+    vertical-align: middle;
+}
+
+.actions-cell {
+    white-space: nowrap;
+}
+
+.actions-cell a {
+    color: #000000;
+    text-decoration: none;
+    margin: 0 0.3rem;
+}
+
+.actions-cell a:hover {
+    transform: scale(1.05);
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.btn {
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    transition: all 0.2s;
+    border: 1px solid #000000;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.btn:active {
+    background-color: #000000;
+    color: #FFFFFF;
+    transform: scale(0.95);
+}

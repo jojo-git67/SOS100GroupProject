@@ -1,42 +1,49 @@
-@model SOS100GroupProjectMVC.Models.CourseViewModel
+@model SOS100GroupProjectMVC.Models.ScheduleActivity
 
 @{
-    ViewData["Title"] = "Skapa kurs";
+    ViewData["Title"] = "Skapa ny aktivitet";
 }
 
-<link rel="stylesheet" href="~/css/courses.css" asp-append-version="true"/>
+<h1>Skapa ny aktivitet</h1>
 
-<h1>Skapa kurs</h1>
+<form asp-action="Create" method="post">
+    <div>
+        <label asp-for="CourseId">Kurs-ID</label>
+        <input asp-for="CourseId" />
+    </div>
 
-<div class="form-container">
-    <form method="post" action="/Courses/Create">
-        <div class="form-group">
-            <label>Titel</label>
-            <input type="text" name="Title" required />
-        </div>
-        <div class="form-group">
-            <label>Beskrivning</label>
-            <textarea name="Description" required></textarea>
-        </div>
-        <div class="form-group">
-            <label>Lärare ID</label>
-            <input type="number" name="TeacherId" required />
-        </div>
-        <div class="form-group">
-            <label>Max deltagare</label>
-            <input type="number" name="MaxParticipants" required />
-        </div>
-        <div class="form-group">
-            <label>Startdatum</label>
-            <input type="date" name="StartDate" required />
-        </div>
-        <div class="form-group">
-            <label>Slutdatum</label>
-            <input type="date" name="EndDate" required />
-        </div>
-        <div class="form-buttons">
-            <button type="submit" class="btn">Spara</button>
-            <a href="/Courses" class="btn">Avbryt</a>
-        </div>
-    </form>
-</div>
+    <div>
+        <label asp-for="UserId">Användar-ID</label>
+        <input asp-for="UserId" />
+    </div>
+
+    <div>
+        <label asp-for="Title">Titel</label>
+        <input asp-for="Title" />
+    </div>
+
+    <div>
+        <label asp-for="Date">Datum</label>
+        <input asp-for="Date" type="date" />
+    </div>
+
+    <div>
+        <label asp-for="StartTime">Starttid</label>
+        <input asp-for="StartTime" type="time" />
+    </div>
+
+    <div>
+        <label asp-for="EndTime">Sluttid</label>
+        <input asp-for="EndTime" type="time" />
+    </div>
+
+    <div>
+        <label asp-for="RoomId">Rums-ID</label>
+        <input asp-for="RoomId" />
+    </div>
+
+    <div>
+        <button type="submit">Spara aktivitet</button>
+        <a asp-action="Index">Avbryt</a>
+    </div>
+</form>

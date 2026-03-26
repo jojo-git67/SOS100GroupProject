@@ -1,47 +1,46 @@
 @model SOS100GroupProjectMVC.Models.ScheduleActivity
-
 @{
-    ViewData["Title"] = "Edit Activity";
+    ViewData["Title"] = "Redigera aktivitet";
+    Layout = "_Layout";
 }
+<section class="schedule-page">
+    <h1>Redigera aktivitet</h1>
+    <form action="/Schedule/Edit/@Model.ActivityId" method="post">
+        <input type="hidden" name="ActivityId" value="@Model.ActivityId" />
+        <div>
+            <label>Aktivitets-ID</label>
+            <input type="number" name="ActivityId" value="@Model.ActivityId" readonly />
+        </div>
+        <div>
+            <label>Kurs-ID</label>
+            <input type="number" name="CourseId" value="@Model.CourseId" />
+        </div>
+        <div>
+            <label>Användar-ID</label>
+            <input type="number" name="UserId" value="@Model.UserId" />
+        </div>
+        <div>
+            <label>Titel</label>
+            <input type="text" name="Title" value="@Model.Title" />
+        </div>
+        <div>
+            <label>Datum</label>
+            <input type="date" name="Date" value="@Model.Date.ToString("yyyy-MM-dd")" />
+        </div>
+        <div>
+            <label>Starttid</label>
+            <input type="time" name="StartTime" value="@Model.StartTime.ToString(@"hh\:mm")" />
+        </div>
+        <div>
+            <label>Sluttid</label>
+            <input type="time" name="EndTime" value="@Model.EndTime.ToString(@"hh\:mm")" />
+        </div>
+        <div>
+            <label>Rum-ID</label>
+            <input type="number" name="RoomId" value="@Model.RoomId" />
+        </div>
+        <button type="submit" class="btn">Spara ändringar</button>
+    </form>
+</section>
 
-<h1>Edit Activity</h1>
-
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="ActivityId" />
-
-    <div>
-        <label asp-for="ActivityId"></label>
-        <input asp-for="ActivityId" readonly />
-    </div>
-    <div>
-        <label asp-for="CourseId"></label>
-        <input asp-for="CourseId" />
-    </div>
-    <div>
-        <label asp-for="UserId"></label>
-        <input asp-for="UserId" />
-    </div>
-    <div>
-        <label asp-for="Title"></label>
-        <input asp-for="Title" />
-    </div>
-    <div>
-        <label asp-for="Date"></label>
-        <input asp-for="Date" placeholder="2026-03-20" />
-    </div>
-    <div>
-        <label asp-for="StartTime"></label>
-        <input asp-for="StartTime" placeholder="08:15" />
-    </div>
-    <div>
-        <label asp-for="EndTime"></label>
-        <input asp-for="EndTime" placeholder="10:00" />
-    </div>
-    <div>
-        <label asp-for="RoomId"></label>
-        <input asp-for="RoomId" />
-    </div>
-
-    <button type="submit">Save Changes</button>
-    <a asp-action="Index">Back</a>
-</form>
+<script src="~/js/schedule.js"></script>

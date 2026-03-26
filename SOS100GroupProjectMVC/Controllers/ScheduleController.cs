@@ -8,11 +8,11 @@ namespace SOS100GroupProjectMVC.Controllers
     {
         private readonly HttpClient _httpClient;
 
-public ScheduleController()
-{
-    _httpClient = new HttpClient();
-    _httpClient.BaseAddress = new Uri("http://localhost:5160");
-}
+        public ScheduleController()
+        {
+            _httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("http://localhost:5160");
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -21,7 +21,6 @@ public ScheduleController()
             try
             {
                 var result = await _httpClient.GetFromJsonAsync<List<ScheduleActivity>>("/api/ScheduleActivities");
-
                 if (result != null)
                 {
                     activities = result;
@@ -30,6 +29,16 @@ public ScheduleController()
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
+            }
+
+            if (TempData["Error"] != null)
+            {
+                ViewBag.Error = TempData["Error"];
+            }
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Success = TempData["Success"];
             }
 
             return View(activities);
@@ -42,30 +51,38 @@ public ScheduleController()
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ScheduleActivity activity)
+        public async Task<IActionResult> Create(int CourseId, int UserId, string Title, string Date, string StartTime, string EndTime, int RoomId)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(activity);
-            }
-
             try
             {
+                var activity = new ScheduleActivity
+                {
+                    CourseId = CourseId,
+                    UserId = UserId,
+                    Title = Title,
+                    Date = DateOnly.Parse(Date),
+                    StartTime = TimeSpan.Parse(StartTime),
+                    EndTime = TimeSpan.Parse(EndTime),
+                    RoomId = RoomId
+                };
+
                 var response = await _httpClient.PostAsJsonAsync("/api/ScheduleActivities", activity);
 
                 if (response.IsSuccessStatusCode)
                 {
+                    TempData["Success"] = "Aktivitet skapades!";
                     return RedirectToAction(nameof(Index));
                 }
 
-                ViewBag.Error = "Kunde inte skapa aktivitet.";
+                var felmeddelande = await response.Content.ReadAsStringAsync();
+                TempData["Error"] = $"API-fel {(int)response.StatusCode}: {felmeddelande}";
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
+                TempData["Error"] = ex.Message;
             }
 
-            return View(activity);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
@@ -73,8 +90,7 @@ public ScheduleController()
         {
             try
             {
-                var activities = await _httpClient.GetFromJsonAsync<List<ScheduleActivity>>("/api/ScheduleActivities");
-                var selectedActivity = activities?.FirstOrDefault(a => a.ActivityId == id);
+                var selectedActivity = await _httpClient.GetFromJsonAsync<ScheduleActivity>($"/api/ScheduleActivities/{id}");
 
                 if (selectedActivity == null)
                 {
@@ -122,8 +138,7 @@ public ScheduleController()
         {
             try
             {
-                var activities = await _httpClient.GetFromJsonAsync<List<ScheduleActivity>>("/api/ScheduleActivities");
-                var selectedActivity = activities?.FirstOrDefault(a => a.ActivityId == id);
+                var selectedActivity = await _httpClient.GetFromJsonAsync<ScheduleActivity>($"/api/ScheduleActivities/{id}");
 
                 if (selectedActivity == null)
                 {
@@ -147,9 +162,8 @@ public ScheduleController()
                 await _httpClient.DeleteAsync($"/api/ScheduleActivities/{id}");
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex)
+            catch
             {
-                ViewBag.Error = ex.Message;
                 return RedirectToAction(nameof(Index));
             }
         }
