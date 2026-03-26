@@ -20,6 +20,14 @@ public class Program
 
         var app = builder.Build();
 
+        // Ensure DB schema exists and seed default users.
+        using (var scope = app.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<UserDbContext>();
+            db.Database.Migrate();
+            UserSeeder.AddDefaultUsers(db);
+        }
+
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
