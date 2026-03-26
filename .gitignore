@@ -421,3 +421,7 @@ FodyWeavers.xsd
 .idea/
 # Ignore local databases
 *.db
+# SQLite
+*.db
+*.db-wal
+*.db-shm
