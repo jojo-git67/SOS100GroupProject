@@ -28,8 +28,19 @@ public class Program
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<BookingDbContext>();
             dbContext.Database.EnsureCreated();
-        }
 
+            if (!dbContext.Rooms.Any())
+            {
+                dbContext.Rooms.AddRange(
+                    new BookingAPI.Models.Room { RoomName = "Grupprum 1", Capacity = 4 },
+                    new BookingAPI.Models.Room { RoomName = "Grupprum 2", Capacity = 6 },
+                    new BookingAPI.Models.Room { RoomName = "Sal A", Capacity = 30 },
+                    new BookingAPI.Models.Room { RoomName = "Sal B", Capacity = 45 },
+                    new BookingAPI.Models.Room { RoomName = "Datorsal 1", Capacity = 20 }
+                );
+                dbContext.SaveChanges();
+            }
+        }
         app.MapOpenApi();
         app.MapScalarApiReference();
 
