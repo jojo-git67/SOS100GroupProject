@@ -10,8 +10,21 @@ namespace SOS100GroupProjectMVC.Controllers
 
         public ScheduleController()
         {
-            _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("http://localhost:5160");
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+            };
+            _httpClient = new HttpClient(handler);
+            _httpClient.BaseAddress = new Uri("https://localhost:7160");
+        }
+
+        private void AttachRoleHeader()
+        {
+            _httpClient.DefaultRequestHeaders.Remove("Role");
+            if (Request.Cookies.TryGetValue("role", out var role))
+            {
+                _httpClient.DefaultRequestHeaders.Add("Role", role);
+            }
         }
 
         public async Task<IActionResult> Index()
@@ -20,6 +33,7 @@ namespace SOS100GroupProjectMVC.Controllers
 
             try
             {
+                AttachRoleHeader();
                 var result = await _httpClient.GetFromJsonAsync<List<ScheduleActivity>>("/api/ScheduleActivities");
                 if (result != null)
                 {
@@ -60,12 +74,13 @@ namespace SOS100GroupProjectMVC.Controllers
                     CourseId = CourseId,
                     UserId = UserId,
                     Title = Title,
-                    Date = DateOnly.Parse(Date),
+                    Date = DateTime.Parse(Date),
                     StartTime = TimeSpan.Parse(StartTime),
                     EndTime = TimeSpan.Parse(EndTime),
                     RoomId = RoomId
                 };
 
+                AttachRoleHeader();
                 var response = await _httpClient.PostAsJsonAsync("/api/ScheduleActivities", activity);
 
                 if (response.IsSuccessStatusCode)
@@ -90,6 +105,7 @@ namespace SOS100GroupProjectMVC.Controllers
         {
             try
             {
+                AttachRoleHeader();
                 var selectedActivity = await _httpClient.GetFromJsonAsync<ScheduleActivity>($"/api/ScheduleActivities/{id}");
 
                 if (selectedActivity == null)
@@ -116,6 +132,7 @@ namespace SOS100GroupProjectMVC.Controllers
 
             try
             {
+                AttachRoleHeader();
                 var response = await _httpClient.PutAsJsonAsync($"/api/ScheduleActivities/{id}", activity);
 
                 if (response.IsSuccessStatusCode)
@@ -138,6 +155,7 @@ namespace SOS100GroupProjectMVC.Controllers
         {
             try
             {
+                AttachRoleHeader();
                 var selectedActivity = await _httpClient.GetFromJsonAsync<ScheduleActivity>($"/api/ScheduleActivities/{id}");
 
                 if (selectedActivity == null)
@@ -159,6 +177,7 @@ namespace SOS100GroupProjectMVC.Controllers
         {
             try
             {
+                AttachRoleHeader();
                 await _httpClient.DeleteAsync($"/api/ScheduleActivities/{id}");
                 return RedirectToAction(nameof(Index));
             }

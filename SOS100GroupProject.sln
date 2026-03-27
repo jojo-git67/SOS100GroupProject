@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOS100GroupProjectMVC", "SOS100GroupProjectMVC\SOS100GroupProjectMVC.csproj", "{72FC640D-5C73-414D-B7B1-967FE8692E7C}"
 EndProject
@@ -6,9 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseCatalogAPI", "CourseC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Registreringstjansten", "Registreringstjansten\Registreringstjansten.csproj", "{30945E4C-B8D4-46EA-AB36-9E209E3FCBBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingAPI", "..\..\SOS100GroupProject-rumsbokning-api\SOS100GroupProject-rumsbokning-api\BookingAPI\BookingAPI.csproj", "{CA33B40E-7ABC-4847-81AA-1212C1746D06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingAPI", "BookingAPI\BookingAPI.csproj", "{CA33B40E-7ABC-4847-81AA-1212C1746D06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleService", "..\..\SOS100GroupProject-schema\SOS100GroupProject-schema\ScheduleService\ScheduleService.csproj", "{BEF3B982-CCF2-445D-ABC5-C0DC3A4F9DBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleService", "ScheduleService\ScheduleService.csproj", "{BEF3B982-CCF2-445D-ABC5-C0DC3A4F9DBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
