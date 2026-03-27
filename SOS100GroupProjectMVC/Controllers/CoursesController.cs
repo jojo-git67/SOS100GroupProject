@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SOS100GroupProjectMVC.Models;
 using System.Text.Json;
 
@@ -9,7 +9,7 @@ namespace SOS100GroupProjectMVC.Controllers;
 public class CoursesController : Controller
 {
    private readonly HttpClient _httpClient;
-   private const string ApiBaseUrl ="https://coursecatalogapi-faededf6g9bbckf6.norwayeast-01.azurewebsites.net/api/courses";
+   private const string ApiBaseUrl ="https://app-coursecatalogapi.azurewebsites.net/api/courses";
 
 
    public CoursesController(IHttpClientFactory httpClientFactory)

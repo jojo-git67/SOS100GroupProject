@@ -11,7 +11,10 @@ public class Program
         builder.Services.AddHttpClient(); 
 
         // Add services to the container.
-        builder.Services.AddControllersWithViews();
+        builder.Services.AddControllersWithViews(options =>
+        {
+            options.Filters.Add<SOS100GroupProjectMVC.Filters.AuthFilter>();
+        });
 
         // Registrera UserDbContext
         builder.Services.AddDbContext<UserDbContext>(options =>

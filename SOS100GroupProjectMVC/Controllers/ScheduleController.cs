@@ -15,7 +15,7 @@ namespace SOS100GroupProjectMVC.Controllers
                 ServerCertificateCustomValidationCallback = (_, _, _, _) => true
             };
             _httpClient = new HttpClient(handler);
-            _httpClient.BaseAddress = new Uri("https://localhost:7160");
+            _httpClient.BaseAddress = new Uri("https://app-scheduleservice.azurewebsites.net");
         }
 
         private void AttachRoleHeader()

@@ -1,10 +1,10 @@
-﻿// Registrering page - JavaScript logic
+// Registrering page - JavaScript logic
 
 // API base URL - change to Azure URL when deploying
-const API_BASE_URL = "http://localhost:5041";
+const API_BASE_URL = "https://registreringstjansten.azurewebsites.net";
 
 // Katalogtjänsten base URL - change to correct port when running locally
-const KATALOG_BASE_URL = "http://localhost:5149";
+const KATALOG_BASE_URL = "https://app-coursecatalogapi.azurewebsites.net";
 
 // Get cookie value by name
 function getCookie(name) {

@@ -32,8 +32,8 @@ public class RoomBookingController : Controller
 
         using var client = new HttpClient(handler);
 
-        var bookingResponse = await client.GetAsync($"https://localhost:7285/api/roombookings/{id}");
-        var roomsResponse = await client.GetAsync("https://localhost:7285/api/rooms");
+        var bookingResponse = await client.GetAsync($"https://app-bookingapi.azurewebsites.net/api/roombookings/{id}");
+        var roomsResponse = await client.GetAsync("https://app-bookingapi.azurewebsites.net/api/rooms");
 
         if (!bookingResponse.IsSuccessStatusCode)
         {
@@ -90,7 +90,7 @@ public class RoomBookingController : Controller
 
         using var client = new HttpClient(handler);
 
-        var response = await client.PostAsJsonAsync("https://localhost:7285/api/roombookings", newBooking);
+        var response = await client.PostAsJsonAsync("https://app-bookingapi.azurewebsites.net/api/roombookings", newBooking);
 
         if (response.IsSuccessStatusCode)
         {
@@ -130,7 +130,7 @@ public class RoomBookingController : Controller
         using var client = new HttpClient(handler);
 
         var response = await client.PutAsJsonAsync(
-            $"https://localhost:7285/api/roombookings/{booking.BookingId}",
+            $"https://app-bookingapi.azurewebsites.net/api/roombookings/{booking.BookingId}",
             booking);
 
         if (response.IsSuccessStatusCode)
@@ -141,7 +141,7 @@ public class RoomBookingController : Controller
 
         var errorMessage = await response.Content.ReadAsStringAsync();
 
-        var roomsResponse = await client.GetAsync("https://localhost:7285/api/rooms");
+        var roomsResponse = await client.GetAsync("https://app-bookingapi.azurewebsites.net/api/rooms");
         var rooms = new List<RoomDto>();
 
         if (roomsResponse.IsSuccessStatusCode)
@@ -181,7 +181,7 @@ public class RoomBookingController : Controller
 
         using var client = new HttpClient(handler);
 
-        var response = await client.DeleteAsync($"https://localhost:7285/api/roombookings/{id}");
+        var response = await client.DeleteAsync($"https://app-bookingapi.azurewebsites.net/api/roombookings/{id}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -209,8 +209,8 @@ public class RoomBookingController : Controller
 
         var model = new RoomBookingPageViewModel();
 
-        var roomsResponse = await client.GetAsync("https://localhost:7285/api/rooms");
-        var bookingsResponse = await client.GetAsync("https://localhost:7285/api/roombookings");
+        var roomsResponse = await client.GetAsync("https://app-bookingapi.azurewebsites.net/api/rooms");
+        var bookingsResponse = await client.GetAsync("https://app-bookingapi.azurewebsites.net/api/roombookings");
 
         if (roomsResponse.IsSuccessStatusCode)
         {
